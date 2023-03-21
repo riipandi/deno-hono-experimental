@@ -1,0 +1,21 @@
+{
+    "imports": {
+        "dotenv/": "https://deno.land/x/dotenv@v3.2.2/",
+        "hono/": "https://deno.land/x/hono@v3.1.2/",
+        "hono_validator/": "https://deno.land/x/hono_validator@v0.1.2/",
+        "http/": "https://deno.land/std@0.180.0/http/",
+        "jose/": "https://deno.land/x/jose@v4.13.1/",
+        "postgres/": "https://deno.land/x/postgres@v0.17.0/",
+        "zod/": "https://deno.land/x/zod@v3.21.4/"
+    },
+    "tasks": {
+      "run": "deno run --allow-read --allow-net --allow-env --watch src/fastrue.ts",
+      "compile": "deno compile --allow-read --allow-net --allow-env src/fastrue.ts",
+      "db:make-migration": "deno run -A https://deno.land/x/nessie/cli.ts make:migration",
+      "db:make-seeder": "deno run -A https://deno.land/x/nessie/cli.ts make:seed",
+      "db:status": "deno run -A https://deno.land/x/nessie/cli.ts status",
+      "db:migrate": "deno run -A https://deno.land/x/nessie/cli.ts migrate",
+      "db:rollback": "deno run -A https://deno.land/x/nessie/cli.ts rollback",
+      "db:reset": "deno run -A https://deno.land/x/nessie/cli.ts rollback all"
+    }
+}
