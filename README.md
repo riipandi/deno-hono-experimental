@@ -1,9 +1,9 @@
 # Fastrue
 
 [![Creator Badge](https://badgen.net/badge/icon/Made%20by%20Aris%20Ripandi?icon=bitcoin-lightning&label&color=blue&labelColor=black&style=flat-square)](https://ripandis.com)
-[![License Bagde](https://badgen.net/github/license/riipandi/fastrue?label=license&color=blue&labelColor=black&style=flat-square)](./LICENSE)
-[![GitHub contributors](https://img.shields.io/github/contributors/riipandi/fastrue?style=flat-square)](https://github.com/riipandi/fastrue/graphs/contributors)
 [![Twitter Badge](https://badgen.net/badge/icon/Follow%20Twitter?icon=twitter&label&color=blue&labelColor=black&style=flat-square)](https://twitter.com/riipandi)
+[![GitHub contributors](https://img.shields.io/github/contributors/riipandi/fastrue?style=flat-square)](https://github.com/riipandi/fastrue/graphs/contributors)
+[![License Bagde](https://badgen.net/github/license/riipandi/fastrue?label=license&color=blue&labelColor=black&style=flat-square)](./LICENSE)
 [![Github Sponsor](https://badgen.net/badge/icon/sponsors?icon=github&label&color=green&labelColor=black&style=flat-square)](https://github.com/sponsors/riipandi)
 
 <hr/>

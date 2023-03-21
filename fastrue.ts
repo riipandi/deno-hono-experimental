@@ -2,7 +2,7 @@ import "dotenv/load.ts";
 // import { validation } from "hono_validator/mod.ts";
 import { serve } from "http/server.ts";
 import { Context, Hono } from "hono/mod.ts";
-import config from "./config.ts";
+import config from "./src/config.ts";
 
 import {
   bearerAuth,
@@ -12,7 +12,7 @@ import {
   logger,
   prettyJSON,
 } from "hono/middleware.ts";
-import { loginRoute, userRoute } from "./routes/mod.ts";
+import { loginRoute, userRoute } from "./src/routes/mod.ts";
 // import { z } from "zod/mod.ts";
 
 const app = new Hono();
