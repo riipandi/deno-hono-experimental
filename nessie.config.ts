@@ -13,10 +13,10 @@ const migrator = new ClientPostgreSQL({
 
 const config: NessieConfig = {
   client: migrator,
-  migrationFolders: ["./src/database/migration"],
-  seedFolders: ["./src/database/seeder"],
-  migrationTemplate: "./src/database/template/migration_template.ts",
-  seedTemplate: "./src/database/template/seed_template.ts",
+  migrationFolders: ["./database/migration"],
+  seedFolders: ["./database/seeder"],
+  migrationTemplate: "./database/template/migration_template.ts",
+  seedTemplate: "./database/template/seed_template.ts",
   debug: false,
 };
 
