@@ -20,8 +20,8 @@ app.use("/secure/*", jwt(config.jwt));
 
 app.get("/", (c: Context) => {
   const userAgent = c.req.header("User-Agent");
-  const PGHOST = Deno.env.get("PGHOST");
-  console.log("PGHOST:", PGHOST);
+  const DB_HOST = Deno.env.get("DB_HOST");
+  console.log("DB_HOST:", DB_HOST);
 
   return c.text(`Hello ${userAgent}`);
 });
