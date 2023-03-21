@@ -1,4 +1,7 @@
-import { Client, ClientOptions } from "postgres/mod.ts";
+import {
+  Client,
+  ClientOptions,
+} from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
 const dbConfig: ClientOptions = {
   applicationName: Deno.env.get("PGAPPNAME") || "fastrue",

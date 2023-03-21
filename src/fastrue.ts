@@ -1,8 +1,7 @@
-import "dotenv/load.ts";
-// import { validation } from "hono_validator/mod.ts";
-import { serve } from "http/server.ts";
-import { Context, Hono } from "hono/mod.ts";
-import config from "./src/config.ts";
+import "https://deno.land/x/dotenv@v3.2.2/load.ts";
+import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
+import { Context, Hono } from "https://deno.land/x/hono@v3.1.2/mod.ts";
+import config from "./config.ts";
 
 import {
   bearerAuth,
@@ -11,18 +10,13 @@ import {
   jwt,
   logger,
   prettyJSON,
-} from "hono/middleware.ts";
-import { loginRoute, userRoute } from "./src/routes/mod.ts";
-// import { z } from "zod/mod.ts";
+} from "https://deno.land/x/hono@v3.1.2/middleware.ts";
+import { loginRoute, userRoute } from "./routes/mod.ts";
 
 const app = new Hono();
 
 app.use("*", logger(), etag(), cors(config.cors), prettyJSON({ space: 4 }));
 app.use("/secure/*", jwt(config.jwt));
-
-// const helloValidator = z.object({
-//   name: z.string(),
-// });
 
 app.get("/", (c: Context) => {
   const userAgent = c.req.header("User-Agent");
