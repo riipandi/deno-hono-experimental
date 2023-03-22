@@ -1,4 +1,4 @@
-import { Context, Hono } from "https://deno.land/x/hono@v3.1.2/mod.ts";
+import { Context, Hono } from "../deps.ts";
 import { db } from "../database/mod.ts";
 
 const app = new Hono();

@@ -1,16 +1,5 @@
-import "https://deno.land/x/dotenv@v3.2.2/load.ts";
-import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
-import { Context, Hono } from "https://deno.land/x/hono@v3.1.2/mod.ts";
-// import { migrate } from "https://deno.land/x/nessie@2.0.10/cli/commands.ts";
-import {
-  bearerAuth,
-  cors,
-  etag,
-  jwt,
-  logger,
-  prettyJSON,
-} from "https://deno.land/x/hono@v3.1.2/middleware.ts";
-
+import { Context, Hono, serve } from "./deps.ts";
+import { bearerAuth, cors, etag, jwt, logger, prettyJSON } from "./deps.ts";
 import config from "./config.ts";
 
 import { loginRoute, userRoute } from "./routes/mod.ts";
@@ -48,7 +37,5 @@ app.onError((err, c) => {
 
 app.route("/users", userRoute);
 app.route("/login", loginRoute);
-
-// await migrate({ config: "./nessie.config.ts" });
 
 await serve(app.fetch);
