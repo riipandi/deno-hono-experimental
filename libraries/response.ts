@@ -6,7 +6,8 @@ export function jsonResponse<T>(
   data?: Record<string, T>,
   status?: StatusCode,
 ): Response {
-  return ctx.json({ status, message, data }, status);
+  const statusCode = status || 200;
+  return ctx.json({ status: statusCode, message, data }, statusCode);
 }
 
 export function throwResponse(

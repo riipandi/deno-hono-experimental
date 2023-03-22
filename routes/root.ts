@@ -3,10 +3,7 @@ import { jsonResponse, throwResponse } from "../libraries/response.ts";
 
 const app = new Hono();
 
-app.get("/", (c: Context) => {
-  const userAgent = c.req.header("User-Agent");
-  return jsonResponse(c, "success", { userAgent });
-});
+app.get("/", (c: Context) => jsonResponse(c, "Hello Fastrue!"));
 
 app.get("/hello", (c) => {
   const name = c.req.valid("query");
@@ -16,7 +13,8 @@ app.get("/hello", (c) => {
 });
 
 app.get("/system", bearerAuth({ token: "secret" }), (c) => {
-  return jsonResponse(c, "Created post!", undefined, 201);
+  const userAgent = c.req.header("User-Agent");
+  return jsonResponse(c, "success", { userAgent });
 });
 
 app.get("/secure", (c) => jsonResponse(c, `Secure endpoint`));
