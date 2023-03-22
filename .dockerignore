@@ -1,0 +1,12 @@
+.vscode
+.DS_Store
+.DS_Store?
+.dockerignore
+.env*
+*.log
+.cache
+README.md
+Dockerfile
+/fastrue
+build/
+dist/

@@ -4,6 +4,7 @@ import { jsonResponse, throwResponse } from "../libraries/response.ts";
 const app = new Hono();
 
 app.get("/", (c: Context) => jsonResponse(c, "Hello Fastrue!"));
+app.get("/health", (c: Context) => jsonResponse(c, "All is well!"));
 
 app.get("/hello", (c) => {
   const name = c.req.valid("query");

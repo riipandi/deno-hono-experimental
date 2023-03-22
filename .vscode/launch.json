@@ -15,13 +15,13 @@
         "--allow-env",
         "--watch"
       ],
-      "attachSimplePort": 8000
+      "attachSimplePort": 8090
     },
     {
       "name": "Debug Client",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:8000"
+      "url": "http://localhost:8090"
     }
   ],
   "compounds": [

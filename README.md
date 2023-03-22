@@ -31,7 +31,7 @@ deno task db:reset
 deno task run
 ```
 
-Open <http://localhost:8000> to view it in the browser.
+Open <http://localhost:8090> to view it in the browser.
 
 ### Compile binary
 
@@ -43,7 +43,7 @@ deno task compile
 ### Test with curl
 
 ```sh
-curl -H 'Authorization: Bearer secret' http://localhost:8000/login
+curl -H 'Authorization: Bearer secret' http://localhost:8090/login
 ```
 
 ## Further help
