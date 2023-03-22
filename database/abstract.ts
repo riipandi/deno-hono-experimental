@@ -1,11 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
+import type { Info } from "../deps.ts";
 import {
   AbstractClient,
   AbstractMigration,
   AbstractSeed,
   ClientPostgreSQL,
-  Info,
-} from "https://deno.land/x/nessie@2.0.10/mod.ts";
+} from "../deps.ts";
 
 // This is a custom abstract migration class which can be used in the migration files
 export class ExtendedMigration<T extends AbstractClient<any> = any>

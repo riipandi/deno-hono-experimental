@@ -1,5 +1,5 @@
-// deno-lint-ignore-file require-await ban-unused-ignore
-import { Info } from "https://deno.land/x/nessie@2.0.10/mod.ts";
+// deno-lint-ignore-file
+import type { Info } from "../../deps.ts";
 import { ExtendedSeeder } from "../abstract.ts";
 
 export default class extends ExtendedSeeder {

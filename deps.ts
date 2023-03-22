@@ -25,6 +25,9 @@ export {
   AbstractSeed,
   ClientPostgreSQL,
 } from "https://deno.land/x/nessie@2.0.10/mod.ts";
-export type { Info } from "https://deno.land/x/nessie@2.0.10/mod.ts";
+export type {
+  Info,
+  NessieConfig,
+} from "https://deno.land/x/nessie@2.0.10/mod.ts";
 
 export { jose };

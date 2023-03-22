@@ -1,7 +1,4 @@
-import {
-  ClientPostgreSQL,
-  Info,
-} from "https://deno.land/x/nessie@2.0.10/mod.ts";
+import { ClientPostgreSQL, Info } from "../../deps.ts";
 import { ExtendedMigration } from "../abstract.ts";
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
