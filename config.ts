@@ -16,6 +16,7 @@ export const dbConfig: ClientOptions = {
 };
 
 const appConfig = {
+  baseUrl: Deno.env.get("APP_BASE_URL") || "http://localhost:8090",
   connectionPool: Deno.env.get("DATABASE_POOL") || false,
   cors: {
     origin: "*",

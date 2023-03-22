@@ -45,4 +45,7 @@ export { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 import * as jose from "https://deno.land/x/jose@v4.13.1/index.ts";
 import * as oauth2 from "https://deno.land/x/oauth4webapi@v2.2.0/mod.ts";
 
+export type { Tokens as OAuth2Tokens } from "https://deno.land/x/oauth2_client@v1.0.0/src/types.ts";
+export { OAuth2Client } from "https://deno.land/x/oauth2_client@v1.0.0/mod.ts";
+
 export { jose, oauth2 };

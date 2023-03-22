@@ -9,7 +9,7 @@ const app = new Hono();
 const port = Number(Deno.env.get("PORT")) || 8090;
 
 // Custom error response
-app.notFound((c) => throwResponse(c, 404, "Resource not found"));
+app.notFound((c) => throwResponse(c, 404, "resource not found"));
 app.onError((err, c) => {
   return (err instanceof HTTPException)
     ? throwResponse(c, err.status, err.message)
