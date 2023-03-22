@@ -5,8 +5,7 @@ const app = new Hono();
 
 app.get("/", async (c: Context) => {
   const { rows, rowCount } = await db.queryArray("select * from users");
-  console.log("DEBUG ~ result", rowCount, rows);
-  return c.json({ message: "Hello from user endpoint", data: rows });
+  return c.json({ count: rowCount, data: rows });
 });
 
 export { app as userRoute };

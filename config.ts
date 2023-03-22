@@ -1,5 +1,12 @@
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
-import { ClientOptions } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+import {
+  ClientOptions,
+  ConnectionString,
+} from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+
+export const databaseUrl: ConnectionString | undefined = Deno.env.get(
+  "DATABASE_URL",
+);
 
 export const dbConfig: ClientOptions = {
   applicationName: "fastrue",

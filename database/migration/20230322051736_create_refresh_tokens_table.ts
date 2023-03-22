@@ -9,7 +9,7 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS public.refresh_tokens (
         instance_id uuid NULL,
-        id bigserial NOT NULL,
+        id uuid NOT NULL,
         "token" varchar(255) NULL,
         "user_id" varchar(255) NULL,
         revoked bool NULL,

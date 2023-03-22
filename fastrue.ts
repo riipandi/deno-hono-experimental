@@ -1,8 +1,7 @@
 import "https://deno.land/x/dotenv@v3.2.2/load.ts";
 import { serve } from "https://deno.land/std@0.180.0/http/server.ts";
 import { Context, Hono } from "https://deno.land/x/hono@v3.1.2/mod.ts";
-import config from "./config.ts";
-
+// import { migrate } from "https://deno.land/x/nessie@2.0.10/cli/commands.ts";
 import {
   bearerAuth,
   cors,
@@ -11,6 +10,9 @@ import {
   logger,
   prettyJSON,
 } from "https://deno.land/x/hono@v3.1.2/middleware.ts";
+
+import config from "./config.ts";
+
 import { loginRoute, userRoute } from "./routes/mod.ts";
 
 const app = new Hono();
@@ -20,9 +22,6 @@ app.use("/secure/*", jwt(config.jwt));
 
 app.get("/", (c: Context) => {
   const userAgent = c.req.header("User-Agent");
-  const DB_HOST = Deno.env.get("DB_HOST");
-  console.log("DB_HOST:", DB_HOST);
-
   return c.text(`Hello ${userAgent}`);
 });
 
@@ -49,5 +48,7 @@ app.onError((err, c) => {
 
 app.route("/users", userRoute);
 app.route("/login", loginRoute);
+
+// await migrate({ config: "./nessie.config.ts" });
 
 await serve(app.fetch);

@@ -6,7 +6,7 @@ import { ExtendedMigration } from "../abstract.ts";
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`CREATE TABLE tableName (id serial)`);
+    await this.client.queryArray(`CREATE TABLE tableName (id uuid)`);
     // this.someHelperFunction();
   }
 
