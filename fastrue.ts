@@ -1,4 +1,4 @@
-import { Hono, serve } from "./deps.ts";
+import { Hono, HTTPException, serve } from "./deps.ts";
 import { cors, etag, jwt, logger, prettyJSON } from "./deps.ts";
 import config from "./config.ts";
 
@@ -9,8 +9,12 @@ const app = new Hono();
 const port = Number(Deno.env.get("PORT")) || 8090;
 
 // Custom error response
-app.notFound((c) => throwResponse(c, 404));
-app.onError((err, c) => throwResponse(c, 500, `${err.message}`));
+app.notFound((c) => throwResponse(c, 404, "Resource not found"));
+app.onError((err, c) => {
+  return (err instanceof HTTPException)
+    ? throwResponse(c, err.status, err.message)
+    : throwResponse(c, 500, `${err.message}`);
+});
 
 // Register global middlewares
 app.use("*", logger(), etag(), cors(config.cors));
