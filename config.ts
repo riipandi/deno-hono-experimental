@@ -16,19 +16,18 @@ export const dbConfig: ClientOptions = {
 };
 
 const appConfig = {
-  useConnectionPool: Deno.env.get("DB_CONNECTION_POOL") || false,
+  connectionPool: Deno.env.get("DATABASE_POOL") || false,
   cors: {
     origin: "*",
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    maxAge: 600,
+    allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
+    maxAge: 600,
   },
   jwt: {
     alg: "HS256",
     secret: "secret",
-    cookie: "_sess_token",
+    cookie: "sess_token",
   },
 };
 

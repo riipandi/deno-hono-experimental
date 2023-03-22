@@ -1,9 +1,14 @@
 import { Client, Pool } from "../deps.ts";
 import config, { databaseUrl } from "../config.ts";
 
-// Creates a pool with 5 available connections
-export const pool = new Pool(databaseUrl, 5);
+const { connectionPool } = config;
+const isPoolNumber = typeof connectionPool === "number";
+const isPoolEnable = Boolean(connectionPool) !== false;
+const numberOfPool = isPoolNumber ? connectionPool : 5;
 
-export const db: Client = config.useConnectionPool
+// Creates connection pool  (default is 5)
+export const pool = new Pool(databaseUrl, numberOfPool);
+
+export const db: Client = isPoolEnable || isPoolNumber
   ? await pool.connect()
   : new Client(databaseUrl);

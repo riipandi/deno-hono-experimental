@@ -1,9 +1,11 @@
 import { Context, Hono, jose } from "../deps.ts";
 import { sendMail } from "../libraries/mailer.ts";
+import { jsonResponse } from "../libraries/response.ts";
+import config from "../config.ts";
 
 const app = new Hono();
 
-app.get("/", async (c: Context) => {
+app.post("/", async (c: Context) => {
   const sk = "cc7e0d44fd473002f1c42167459001140ec6389b7353f8088f4d9a95f2f596f2";
   const secret = new TextEncoder().encode(sk);
   const alg = "HS256";
@@ -21,7 +23,10 @@ app.get("/", async (c: Context) => {
     content: "This is the email content",
   });
 
-  return c.json({ token });
+  // Store token in cookies
+  c.cookie(config.jwt.cookie, token);
+
+  return jsonResponse(c, "success", { token }, 201);
 });
 
 export { app as loginRoute };
