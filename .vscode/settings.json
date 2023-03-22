@@ -1,5 +1,13 @@
 {
-    "editor.inlayHints.enabled": "off",
     "deno.enable": true,
-    "deno.enablePaths": ["./"]
+    "deno.enablePaths": ["./"],
+    "debug.openDebug": "neverOpen",
+    "debug.showInStatusBar": "always",
+    "debug.console.wordWrap": false,
+    "debug.terminal.clearBeforeReusing": true,
+    "debug.toolBarLocation": "floating",
+    "debug.console.closeOnEnd": true,
+    "debug.enableStatusBarColor": false,
+    "debug.internalConsoleOptions": "neverOpen",
+    "editor.inlayHints.enabled": "off",
 }
