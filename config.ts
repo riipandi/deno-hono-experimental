@@ -19,6 +19,7 @@ export const dbConfig: ClientOptions = {
 };
 
 const appConfig = {
+  useConnectionPool: Deno.env.get("DB_CONNECTION_POOL") || false,
   cors: {
     origin: "*",
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
