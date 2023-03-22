@@ -3,7 +3,6 @@ export {
   getStatusText,
   type StatusCode,
 } from "https://deno.land/x/hono@v3.1.2/utils/http-status.ts";
-import * as jose from "https://deno.land/x/jose@v4.13.1/index.ts";
 
 export type { Context } from "https://deno.land/x/hono@v3.1.2/mod.ts";
 export { Hono } from "https://deno.land/x/hono@v3.1.2/mod.ts";
@@ -40,4 +39,9 @@ export type {
   ConnectConfigWithAuthentication,
 } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
 
-export { jose };
+export { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
+
+import * as jose from "https://deno.land/x/jose@v4.13.1/index.ts";
+import * as oauth2 from "https://deno.land/x/oauth4webapi@v2.2.0/mod.ts";
+
+export { jose, oauth2 };

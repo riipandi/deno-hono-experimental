@@ -46,20 +46,6 @@ deno task compile
 curl -H 'Authorization: Bearer secret' http://localhost:8000/login
 ```
 
-## Import dependencies
-
-```json
-"imports": {
-    "dotenv/": "https://deno.land/x/dotenv@v3.2.2/",
-    "hono/": "https://deno.land/x/hono@v3.1.2/",
-    "hono_validator/": "https://deno.land/x/hono_validator@v0.1.2/",
-    "http/": "https://deno.land/std@0.180.0/http/",
-    "jose/": "https://deno.land/x/jose@v4.13.1/",
-    "postgres/": "https://deno.land/x/postgres@v0.17.0/",
-    "zod/": "https://deno.land/x/zod@v3.21.4/"
-}
-```
-
 ## Further help
 
 To learn more about Deno and Hono, check out the [Deno Documentation](https://deno.land/) [Hono Documentation](https://hono.dev/).
