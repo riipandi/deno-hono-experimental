@@ -2,7 +2,7 @@ import { Context, Hono, jose } from "../deps.ts";
 import { sendMail } from "../libraries/mailer.ts";
 import { jsonResponse, throwResponse } from "../libraries/response.ts";
 import config from "../config.ts";
-import { fetUserDetails, getToken, oauth2Client } from "../providers/github.ts";
+import { getToken, getUserDetails, oauth2Client } from "../providers/github.ts";
 
 const app = new Hono();
 
@@ -50,7 +50,7 @@ app.get("/callback/github", async (c: Context) => {
   const { accessToken } = await getToken(c, codeVerifier);
 
   // Use the access token to make an authenticated API request
-  const result = await fetUserDetails(accessToken);
+  const result = await getUserDetails(accessToken);
 
   return jsonResponse(c, "success", { code, accessToken, ...result });
 });
@@ -63,7 +63,7 @@ app.get("/details", async (c: Context) => {
   }
 
   // Use the access token to make an authenticated API request
-  const result = await fetUserDetails(token);
+  const result = await getUserDetails(token);
 
   return jsonResponse(c, "success", { ...result });
 });

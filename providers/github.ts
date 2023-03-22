@@ -19,7 +19,7 @@ export const getToken = async (
   });
 };
 
-export const fetUserDetails = async (accessToken: string) => {
+export const getUserDetails = async (accessToken: string) => {
   const userResponse = await fetch("https://api.github.com/user", {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
