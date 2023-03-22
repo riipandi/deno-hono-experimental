@@ -1,4 +1,8 @@
 export { serve } from "https://deno.land/std@0.180.0/http/server.ts";
+export {
+  getStatusText,
+  type StatusCode,
+} from "https://deno.land/x/hono@v3.1.2/utils/http-status.ts";
 import * as jose from "https://deno.land/x/jose@v4.13.1/index.ts";
 
 export type { Context } from "https://deno.land/x/hono@v3.1.2/mod.ts";

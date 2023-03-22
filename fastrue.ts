@@ -1,43 +1,28 @@
-import { Context, Hono, serve } from "./deps.ts";
-import { bearerAuth, cors, etag, jwt, logger, prettyJSON } from "./deps.ts";
+import { Hono, serve } from "./deps.ts";
+import { cors, etag, jwt, logger, prettyJSON } from "./deps.ts";
 import config from "./config.ts";
 
-import { loginRoute, userRoute } from "./routes/mod.ts";
+import { defaultRoute, loginRoute, userRoute } from "./routes/mod.ts";
+import { throwResponse } from "./libraries/response.ts";
 
 const app = new Hono();
+const port = Number(Deno.env.get("PORT")) || 8090;
 
-app.use("*", logger(), etag(), cors(config.cors), prettyJSON({ space: 4 }));
+// Custom error response
+app.notFound((c) => throwResponse(c, 404));
+app.onError((err, c) => throwResponse(c, 500, `${err.message}`));
+
+// Register global middlewares
+app.use("*", logger(), etag(), cors(config.cors));
+app.use("*", prettyJSON({ space: 4 }));
+
+// Route level middlewares
 app.use("/secure/*", jwt(config.jwt));
 
-app.get("/", (c: Context) => {
-  const userAgent = c.req.header("User-Agent");
-  return c.text(`Hello ${userAgent}`);
-});
-
-app.get("/hello", (c) => {
-  // const { name } = c.req.valid("query");
-  return c.json({
-    message: `Hello Hono`,
-  });
-});
-
-app.get("/system", bearerAuth({ token: "secret" }), (c) => {
-  return c.json({ message: "Created post!" }, 201);
-});
-
-app.get("/secure", (c) => {
-  return c.json({ message: "Secure endpoint" });
-});
-
-app.notFound((c) => c.text("404 Not found", 404));
-app.onError((err, c) => {
-  console.error(`${err}`);
-  return c.text("500 Server error", 500);
-});
-
+// Register app routes
+app.route("/", defaultRoute);
 app.route("/users", userRoute);
 app.route("/login", loginRoute);
 
-await serve(app.fetch, {
-  port: Number(Deno.env.get("PORT")) || 8090,
-});
+// Finally, start the server
+await serve(app.fetch, { port });
