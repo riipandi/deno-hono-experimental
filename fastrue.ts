@@ -1,32 +1,32 @@
-import { Hono, HTTPException, serve } from "./deps.ts";
-import { cors, etag, jwt, logger, prettyJSON } from "./deps.ts";
-import config from "./config.ts";
+import { CliffyCommand, CliffyEnumType } from './deps.ts'
+import app, { port, serve } from './server.ts'
 
-import { defaultRoute, loginRoute, userRoute } from "./routes/mod.ts";
-import { throwResponse } from "./libraries/response.ts";
+const logLevelType = new CliffyEnumType(['debug', 'info', 'warn', 'error'])
 
-const app = new Hono();
-const port = Number(Deno.env.get("PORT")) || 8090;
-
-// Custom error response
-app.notFound((c) => throwResponse(c, 404, "resource not found"));
-app.onError((err, c) => {
-  return (err instanceof HTTPException)
-    ? throwResponse(c, err.status, err.message)
-    : throwResponse(c, 500, `${err.message}`);
-});
-
-// Register global middlewares
-app.use("*", logger(), etag(), cors(config.cors));
-app.use("*", prettyJSON({ space: 4 }));
-
-// Route level middlewares
-app.use("/secure/*", jwt(config.jwt));
-
-// Register app routes
-app.route("/", defaultRoute);
-app.route("/users", userRoute);
-app.route("/login", loginRoute);
-
-// Finally, start the server
-await serve(app.fetch, { port });
+await new CliffyCommand()
+  .name('fastrue')
+  .version('0.1.0')
+  .description('Fastrue is a headless authentication server')
+  .type('log-level', logLevelType)
+  .env('DEBUG=<enable:boolean>', 'Enable debug output.')
+  .globalOption('-d, --debug', 'Enable debug output.')
+  .globalOption('-l, --log-level <level:log-level>', 'Set log level.', {
+    default: 'info' as const,
+  })
+  .action(async (_options, ...args) => {
+    console.info(`Starting application server...`)
+    await serve(app.fetch, { port })
+  })
+  // Command for running database migration.
+  .command('migrate', 'Run database migration.')
+  .arguments('<input:number>')
+  .action((options, ...args) => {
+    console.log(`Running database migration: ${args}`)
+  })
+  // Command for running rollback migration.
+  .command('rollback', 'Rollback database migration.')
+  .arguments('<input:number>')
+  .action((options, ...args) => {
+    console.log(`Rolling back database migration: ${args}`)
+  })
+  .parse(Deno.args)

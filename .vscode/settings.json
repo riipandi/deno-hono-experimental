@@ -10,4 +10,8 @@
     "debug.enableStatusBarColor": false,
     "debug.internalConsoleOptions": "neverOpen",
     "editor.inlayHints.enabled": "off",
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "[json][jsonc]": {
+      "editor.defaultFormatter": "denoland.vscode-deno"
+    },
 }

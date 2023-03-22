@@ -1,5 +1,5 @@
-import { ClientPostgreSQL, Info } from "../../deps.ts";
-import { ExtendedMigration } from "../abstract.ts";
+import { ClientPostgreSQL, Info } from '../../deps.ts'
+import { ExtendedMigration } from '../abstract.ts'
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
@@ -28,13 +28,13 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         updated_at timestamptz NULL,
         CONSTRAINT users_pkey PRIMARY KEY (id)
       )
-    `);
+    `)
     await this.client.queryArray(
       `CREATE INDEX users_instance_id_email_idx ON public.users USING btree (instance_id, email)`,
-    );
+    )
     await this.client.queryArray(
       `CREATE INDEX users_instance_id_idx ON public.users USING btree (instance_id)`,
-    );
+    )
     // this.someHelperFunction();
   }
 
@@ -42,8 +42,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     // Running when migration rollback
     await this.client.queryArray(
       `DROP INDEX public.users_instance_id_email_idx`,
-    );
-    await this.client.queryArray(`DROP INDEX public.users_instance_id_idx`);
-    await this.client.queryArray(`DROP TABLE IF EXISTS public.users`);
+    )
+    await this.client.queryArray(`DROP INDEX public.users_instance_id_idx`)
+    await this.client.queryArray(`DROP TABLE IF EXISTS public.users`)
   }
 }

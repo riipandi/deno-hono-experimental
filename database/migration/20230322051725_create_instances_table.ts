@@ -1,5 +1,5 @@
-import { ClientPostgreSQL, Info } from "../../deps.ts";
-import { ExtendedMigration } from "../abstract.ts";
+import { ClientPostgreSQL, Info } from '../../deps.ts'
+import { ExtendedMigration } from '../abstract.ts'
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
@@ -12,12 +12,12 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         updated_at timestamptz NULL,
         CONSTRAINT instances_pkey PRIMARY KEY (id)
       )
-    `);
+    `)
     // this.someHelperFunction();
   }
 
   async down(_ctx: Info): Promise<void> {
     // Running when migration rollback
-    await this.client.queryArray(`DROP TABLE IF EXISTS public.instances`);
+    await this.client.queryArray(`DROP TABLE IF EXISTS public.instances`)
   }
 }

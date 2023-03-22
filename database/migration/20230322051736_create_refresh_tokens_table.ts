@@ -1,5 +1,5 @@
-import { ClientPostgreSQL, Info } from "../../deps.ts";
-import { ExtendedMigration } from "../abstract.ts";
+import { ClientPostgreSQL, Info } from '../../deps.ts'
+import { ExtendedMigration } from '../abstract.ts'
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
@@ -14,16 +14,16 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         updated_at timestamptz NULL,
         CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id)
       )
-    `);
+    `)
     await this.client.queryArray(
       `CREATE INDEX refresh_tokens_instance_id_idx ON public.refresh_tokens USING btree (instance_id)`,
-    );
+    )
     await this.client.queryArray(
       `CREATE INDEX refresh_tokens_instance_id_user_id_idx ON public.refresh_tokens USING btree (instance_id, user_id)`,
-    );
+    )
     await this.client.queryArray(
       `CREATE INDEX refresh_tokens_token_idx ON public.refresh_tokens USING btree (token)`,
-    );
+    )
     // this.someHelperFunction();
   }
 
@@ -31,11 +31,11 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     // Running when migration rollback
     await this.client.queryArray(
       `DROP INDEX public.refresh_tokens_instance_id_idx`,
-    );
+    )
     await this.client.queryArray(
       `DROP INDEX public.refresh_tokens_instance_id_user_id_idx`,
-    );
-    await this.client.queryArray(`DROP INDEX public.refresh_tokens_token_idx`);
-    await this.client.queryArray(`DROP TABLE IF EXISTS public.refresh_tokens`);
+    )
+    await this.client.queryArray(`DROP INDEX public.refresh_tokens_token_idx`)
+    await this.client.queryArray(`DROP TABLE IF EXISTS public.refresh_tokens`)
   }
 }

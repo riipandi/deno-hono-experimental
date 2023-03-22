@@ -1,28 +1,24 @@
-import {
-  ConnectConfig,
-  ConnectConfigWithAuthentication,
-  SmtpClient,
-} from "../deps.ts";
+import { ConnectConfig, ConnectConfigWithAuthentication, SmtpClient } from '../deps.ts'
 
 export const smtpConfig: ConnectConfig | ConnectConfigWithAuthentication = {
-  hostname: "localhost",
+  hostname: 'localhost',
   port: 1025,
-  username: "",
-  password: "",
-};
+  username: '',
+  password: '',
+}
 
-export const smtpClient = new SmtpClient();
+export const smtpClient = new SmtpClient()
 
 export type SendMailParams = {
-  subject: string;
-  content: string;
-  html?: string;
-};
+  subject: string
+  content: string
+  html?: string
+}
 
 export async function sendMail(to: string, params: SendMailParams) {
-  const from = "aris@duck.com";
+  const from = 'aris@duck.com'
   // await smtpClient.connectTLS(smtpConfig);
-  await smtpClient.connect(smtpConfig);
-  await smtpClient.send({ from, to, ...params });
-  await smtpClient.close();
+  await smtpClient.connect(smtpConfig)
+  await smtpClient.send({ from, to, ...params })
+  await smtpClient.close()
 }

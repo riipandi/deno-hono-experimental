@@ -11,4 +11,7 @@ node_modules/
 deno.lock
 build/
 dist/
+
+# Binaries
 /fastrue
+/server

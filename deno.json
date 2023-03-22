@@ -11,5 +11,30 @@
     "format": "deno fmt --ignore=coverage,dist,build,.vscode,README.md",
     "lint": "deno lint --ignore=tests,dist,build,.vscode",
     "deploy": "fly deploy --remote-only"
+  },
+  "lint": {
+    "files": {
+      "include": ["database/", "libraries/", "providers/", "routes/", "schema/"],
+      "exclude": ["build/", "dist/"]
+    },
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": ["no-unused-vars"]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": ["./"],
+      "exclude": [".vscode/"]
+    },
+    "options": {
+      "useTabs": false,
+      "lineWidth": 80,
+      "indentWidth": 2,
+      "semiColons": false,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
   }
 }
