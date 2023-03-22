@@ -38,4 +38,6 @@ app.onError((err, c) => {
 app.route("/users", userRoute);
 app.route("/login", loginRoute);
 
-await serve(app.fetch);
+await serve(app.fetch, {
+  port: Number(Deno.env.get("PORT")) || 8090,
+});

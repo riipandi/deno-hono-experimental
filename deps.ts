@@ -30,4 +30,10 @@ export type {
   NessieConfig,
 } from "https://deno.land/x/nessie@2.0.10/mod.ts";
 
+export { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
+export type {
+  ConnectConfig,
+  ConnectConfigWithAuthentication,
+} from "https://deno.land/x/smtp@v0.7.0/mod.ts";
+
 export { jose };
