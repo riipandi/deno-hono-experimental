@@ -5,9 +5,9 @@ import { version } from '../server.ts'
 const app = new Hono()
 
 app.get('/', (c: Context) => {
-  // const runtime = `${c.runtime} ${Deno.version.deno}` || 'unknown'
+  const runtimeVersion = Deno.version.deno || 'unknown'
   return jsonResponse(c, `Fastrue ${version}`, {
-    runtime: `${c.runtime}`,
+    runtime: `${c.runtime} v${runtimeVersion}`,
   })
 })
 
