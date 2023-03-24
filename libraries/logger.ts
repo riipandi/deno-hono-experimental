@@ -1,4 +1,9 @@
-import { getPathFromURL, type MiddlewareHandler, StatusCode } from '../deps.ts'
+import {
+  Context,
+  getPathFromURL,
+  type MiddlewareHandler,
+  StatusCode,
+} from '../deps.ts'
 import { formatDateTime } from '../deps.ts'
 
 enum LogPrefix {
@@ -63,14 +68,18 @@ function log(
 
 export const logger = (fn: PrintFunc = console.log): MiddlewareHandler => {
   return async (c, next) => {
-    const { method } = c.req
-    const path = getPathFromURL(c.req.url)
+    const { method, url } = c.req
     const start = Date.now()
-    const timeStamp = formatDateTime(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
+    const path = getPathFromURL(url)
+    const timeStamp = formatDateTime(new Date(), 'yyyy-MM-dd HH:mm:ss')
     const userAgent = c.req.header('User-Agent') as string
+
     const forwarded = c.req.header('X-Forwarded-For') as string
-    const clientAddr = forwarded ? forwarded.split(/, /)[0] : c.req.referrer
+    const clientFwdAddr = forwarded ? forwarded.split(/, /)[0] : c.req.referrer
+    const clientAddr = c.req.header('Fly-Client-IP')
+      ? c.req.header('Fly-Client-IP')
+      : clientFwdAddr
 
     await next()
 
