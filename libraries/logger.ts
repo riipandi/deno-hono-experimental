@@ -1,7 +1,8 @@
 import { getPathFromURL, type MiddlewareHandler, StatusCode } from '../deps.ts'
+import { formatDateTime } from '../deps.ts'
 
 enum LogPrefix {
-  Outgoing = '-->',
+  Outgoing = 'RES',
   Incoming = '<--',
   Error = 'xxx',
 }
@@ -52,9 +53,11 @@ function log(
   elapsed?: string,
 ) {
   const statusCode = colorStatus(status)
+  const prefixStr = `\x1b[33m${prefix}\x1b[0m`
+
   const out = prefix === LogPrefix.Incoming
-    ? `  ${prefix} ${method} ${path}`
-    : `  ${prefix} ${method} ${path} ${statusCode} [${elapsed}] ${clientAddr} ${userAgent}`
+    ? `${prefix} ${method} ${path}`
+    : `[${prefixStr}] ${method} ${path} ${statusCode} [${elapsed}] ${clientAddr} ${userAgent}`
   fn(out)
 }
 
@@ -63,17 +66,17 @@ export const logger = (fn: PrintFunc = console.log): MiddlewareHandler => {
     const { method } = c.req
     const path = getPathFromURL(c.req.url)
     const start = Date.now()
+    const timeStamp = formatDateTime(new Date(), 'yyyy-MM-dd HH:mm:ss')
 
     const userAgent = c.req.header('User-Agent') as string
     const forwarded = c.req.header('X-Forwarded-For') as string
     const clientAddr = forwarded ? forwarded.split(/, /)[0] : c.req.referrer
-    // fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(data => console.log(data))
 
     await next()
 
     log(
       fn,
-      LogPrefix.Outgoing,
+      timeStamp,
       method,
       path,
       c.res.status,

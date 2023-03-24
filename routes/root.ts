@@ -6,7 +6,7 @@ const app = new Hono()
 
 app.get('/', (c: Context) => {
   return jsonResponse(c, `Fastrue ${version}`, {
-    runtime: `${c.runtime}`,
+    runtime: c.runtime,
   })
 })
 

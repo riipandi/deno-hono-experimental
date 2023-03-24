@@ -51,6 +51,7 @@ import * as oauth2 from 'https://deno.land/x/oauth4webapi@v2.2.0/mod.ts'
 
 export type { Tokens as OAuth2Tokens } from 'https://deno.land/x/oauth2_client@v1.0.0/src/types.ts'
 export { OAuth2Client } from 'https://deno.land/x/oauth2_client@v1.0.0/mod.ts'
+export { format as formatDateTime } from 'https://deno.land/std@0.181.0/datetime/mod.ts'
 
 export {
   Command as CliffyCommand,
