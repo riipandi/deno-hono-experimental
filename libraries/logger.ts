@@ -7,9 +7,9 @@ import {
 import { formatDateTime } from '../deps.ts'
 
 enum LogPrefix {
-  Outgoing = 'RES',
-  Incoming = '<--',
-  Error = 'xxx',
+  Outgoing = 'RESP',
+  Incoming = 'REQS',
+  Error = 'ERRMSG',
 }
 
 const humanize = (times: string[]) => {
