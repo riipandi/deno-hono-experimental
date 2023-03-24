@@ -25,7 +25,7 @@ app.post('/', async (c: Context) => {
   })
 
   // Store token in cookies
-  c.cookie(config.jwt.cookie, token)
+  c.cookie(String(config.jwt.cookie), token)
 
   return jsonResponse(c, 'success', { token }, 201)
 })

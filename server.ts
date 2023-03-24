@@ -6,6 +6,7 @@ import { defaultRoute, loginRoute, userRoute } from './routes/mod.ts'
 import { throwResponse } from './libraries/response.ts'
 
 const app = new Hono()
+const version = '0.1.0'
 
 // Custom error response
 app.notFound((c) => throwResponse(c, 404, 'resource not found'))
@@ -27,5 +28,6 @@ app.route('/', defaultRoute)
 app.route('/users', userRoute)
 app.route('/login', loginRoute)
 
-export { serve }
+export { serve, version }
+
 export default app

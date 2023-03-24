@@ -1,8 +1,8 @@
 import { ClientPostgreSQL, NessieConfig } from './deps.ts'
-import { databaseUrl } from './config.ts'
+import { default as appConfig } from './config.ts'
 
 const config: NessieConfig = {
-  client: new ClientPostgreSQL(databaseUrl),
+  client: new ClientPostgreSQL(appConfig.database.url),
   migrationFolders: ['./database/migration'],
   seedFolders: ['./database/seeder'],
   migrationTemplate: './database/template/migration_template.ts',

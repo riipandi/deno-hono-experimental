@@ -1,12 +1,14 @@
 app = "fastrue"
 kill_signal = "SIGINT"
 kill_timeout = 5
-processes = []
+primary_region = "sjc"
 
 [experimental]
   private_network = true
   allowed_public_ports = []
   auto_rollback = true
+  cmd = "entrypoint.sh"
+  entrypoint = "sh"
 
 [build]
   dockerfile = "Dockerfile"
@@ -17,7 +19,6 @@ processes = []
 
 [env]
   PORT = "9999"
-  PRIMARY_REGION = "sjc"
 
 [[services]]
   internal_port = 9999
@@ -49,7 +50,7 @@ processes = []
     interval = "10s"
     grace_period = "5s"
     method = "get"
-    path = "/health"
+    path = "/"
     protocol = "http"
     timeout = "2s"
     tls_skip_verify = false

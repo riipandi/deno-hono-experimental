@@ -2,12 +2,12 @@ import { Context, getStatusText, StatusCode } from '../deps.ts'
 
 export function jsonResponse<T>(
   ctx: Context,
-  message: string,
+  message?: string,
   data?: Record<string, T>,
   status?: StatusCode,
 ): Response {
   const statusCode = status || 200
-  return ctx.json({ status: statusCode, message, data }, statusCode)
+  return ctx.json({ status, message, ...data }, statusCode)
 }
 
 export function throwResponse(

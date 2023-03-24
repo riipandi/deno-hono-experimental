@@ -1,4 +1,8 @@
-import { ConnectConfig, ConnectConfigWithAuthentication, SmtpClient } from '../deps.ts'
+import {
+  ConnectConfig,
+  ConnectConfigWithAuthentication,
+  SmtpClient,
+} from '../deps.ts'
 
 export const smtpConfig: ConnectConfig | ConnectConfigWithAuthentication = {
   hostname: 'localhost',

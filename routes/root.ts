@@ -1,13 +1,17 @@
 import { Context, Hono } from '../deps.ts'
 import { jsonResponse } from '../libraries/response.ts'
+import { version } from '../server.ts'
 
 const app = new Hono()
 
-app.get('/', (c: Context) => jsonResponse(c, `Hello from ${c.runtime}`))
-app.get('/health', (c: Context) => jsonResponse(c, 'All is well!'))
+app.get('/', (c: Context) => {
+  return jsonResponse(c, `Fastrue ${version}`, {
+    runtime: `${c.runtime} ${Deno.version.deno}`,
+  })
+})
 
 app.get('/settings', (c: Context) => {
-  const result = {
+  const data = {
     'external': {
       'apple': true,
       'azure': true,
@@ -30,7 +34,7 @@ app.get('/settings', (c: Context) => {
     'autoconfirm': false,
   }
 
-  return c.json(result, 200)
+  return jsonResponse(c, undefined, data)
 })
 
 export { app as defaultRoute }

@@ -22,11 +22,11 @@ const corsConfig: {
 
 const jwtConfig: {
   secret: string
-  cookie?: string
+  cookie: string
   alg?: string
 } = {
   alg: 'HS256',
-  secret: 'secret',
+  secret: Deno.env.get('FASTRUE_JWT_SECRET')!,
   cookie: 'sess_token',
 }
 

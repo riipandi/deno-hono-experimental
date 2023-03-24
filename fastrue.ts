@@ -1,5 +1,5 @@
 import { CliffyCommand, CliffyEnumType } from './deps.ts'
-import app, { serve } from './server.ts'
+import app, { serve, version } from './server.ts'
 import config from './config.ts'
 
 type Args = [string, (string | undefined)?]
@@ -7,7 +7,7 @@ type Args = [string, (string | undefined)?]
 const logLevelType = new CliffyEnumType(['debug', 'info', 'warn', 'error'])
 await new CliffyCommand()
   .name('fastrue')
-  .version('0.1.0')
+  .version(version)
   .description('Fastrue is a headless authentication server')
   .type('log-level', logLevelType)
   .env('DEBUG=<enable:boolean>', 'Enable debug output.')

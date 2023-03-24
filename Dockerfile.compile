@@ -1,0 +1,36 @@
+# syntax=docker/dockerfile:1
+#===============================================================================
+# Stage 1: Builder
+#===============================================================================
+FROM --platform=linux/amd64 denoland/deno:alpine-1.32.1 as builder
+WORKDIR /app
+COPY deps.ts .
+RUN deno cache deps.ts
+ADD . .
+RUN deno cache fastrue.ts
+RUN deno compile --output dist/fastrue --allow-read --allow-net --allow-env fastrue.ts
+
+#===============================================================================
+# Stage 2: Runner
+#===============================================================================
+FROM --platform=linux/amd64 alpine:3.17 as runner
+LABEL org.opencontainers.image.source="https://github.com/riipandi/fastrue"
+
+ARG PORT 9999
+ARG FASTRUE_BASE_URL
+ARG DATABASE_URL
+ARG DATABASE_POOL
+
+ENV PORT $PORT
+ENV FASTRUE_BASE_URL $FASTRUE_BASE_URL
+ENV DATABASE_URL $DATABASE_URL
+ENV DATABASE_POOL $DATABASE_POOL
+
+WORKDIR /app
+RUN addgroup -g 1001 -S deno && adduser -S deno -u 1001
+COPY --from=builder --chown=deno:deno /app/dist/fastrue /app/fastrue
+
+USER deno
+EXPOSE $PORT
+
+CMD [ "fastrue" ]
