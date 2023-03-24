@@ -14,10 +14,9 @@ const corsConfig: {
   origin: '*',
   allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
   allowHeaders: [],
-  exposeHeaders: [],
   maxAge: 3600,
   credentials: false,
-  // exposeHeaders: ['*'],
+  exposeHeaders: ['X-Forwarded-For'],
 }
 
 const jwtConfig: {
