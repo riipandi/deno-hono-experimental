@@ -23,7 +23,7 @@ await new CliffyCommand()
   .command('migrate', 'Run database migration.')
   .option('-v, --verbose', 'Enable debug output.')
   .arguments('[amount:number]')
-  .action(async (_opts, ...args) => {
+  .action((_opts, ...args) => {
     const message = args.length > 0
       ? `Running partial database migration: ${args[0]}`
       : `Running full database migration`

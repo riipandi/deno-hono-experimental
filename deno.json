@@ -14,8 +14,8 @@
   },
   "lint": {
     "files": {
-      "include": ["database/", "libraries/", "providers/", "routes/", "schema/"],
-      "exclude": ["build/", "dist/"]
+      "include": ["./"],
+      "exclude": [".vscode/", "dist/"]
     },
     "rules": {
       "tags": ["recommended"],
@@ -26,7 +26,7 @@
   "fmt": {
     "files": {
       "include": ["./"],
-      "exclude": [".vscode/"]
+      "exclude": [".vscode/", "CODE_OF_CONDUCT.md"]
     },
     "options": {
       "useTabs": false,
