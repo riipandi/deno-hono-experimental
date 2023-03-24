@@ -18,7 +18,10 @@ export {
 
 export { Pool } from 'https://deno.land/x/postgres@v0.17.0/pool.ts'
 export { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
-export type { ClientOptions, ConnectionString } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
+export type {
+  ClientOptions,
+  ConnectionString,
+} from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
 
 export {
   AbstractClient,
@@ -26,7 +29,12 @@ export {
   AbstractSeed,
   ClientPostgreSQL,
 } from 'https://deno.land/x/nessie@2.0.10/mod.ts'
-export type { Info, NessieConfig } from 'https://deno.land/x/nessie@2.0.10/mod.ts'
+export type {
+  Info,
+  NessieConfig,
+} from 'https://deno.land/x/nessie@2.0.10/mod.ts'
+export { migrate as migrateCmd } from 'https://deno.land/x/nessie@2.0.10/cli/commands.ts'
+export { State as MigrationState } from 'https://deno.land/x/nessie@2.0.10/cli/state.ts'
 
 export { SmtpClient } from 'https://deno.land/x/smtp@v0.7.0/mod.ts'
 export type {

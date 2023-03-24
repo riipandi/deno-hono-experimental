@@ -3,10 +3,13 @@
 [![Creator Badge](https://badgen.net/badge/icon/Made%20by%20Aris%20Ripandi?icon=bitcoin-lightning&label&color=blue&labelColor=black&style=flat-square)](https://ripandis.com)
 [![Twitter Badge](https://badgen.net/badge/icon/Follow%20Twitter?icon=twitter&label&color=blue&labelColor=black&style=flat-square)](https://twitter.com/riipandi)
 [![GitHub contributors](https://img.shields.io/github/contributors/riipandi/fastrue?style=flat-square)](https://github.com/riipandi/fastrue/graphs/contributors)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](./CODE_OF_CONDUCT.md)
 [![License Bagde](https://badgen.net/github/license/riipandi/fastrue?label=license&color=blue&labelColor=black&style=flat-square)](./LICENSE)
 [![Github Sponsor](https://badgen.net/badge/icon/sponsors?icon=github&label&color=green&labelColor=black&style=flat-square)](https://github.com/sponsors/riipandi)
 
 <hr/>
+
+> WARNING: Work in Progress!!
 
 Fastrue is GoTrue compatible headless authentication server.
 
@@ -31,7 +34,7 @@ deno task db:reset
 deno task run
 ```
 
-Open <http://localhost:8090> to view it in the browser.
+Open <http://localhost:9999> to view it in the browser.
 
 ### Compile binary
 
@@ -43,12 +46,12 @@ deno task compile
 ### Test with curl
 
 ```sh
-curl -H 'Authorization: Bearer secret' http://localhost:8090/login
+curl -H 'Authorization: Bearer secret' http://localhost:9999/login
 ```
 
 ## Further help
 
-To learn more about Deno and Hono, check out the [Deno Documentation](https://deno.land/) [Hono Documentation](https://hono.dev/).
+To learn more about Deno and Hono, check out the [Deno Documentation](https://deno.land/) and [Hono Documentation](https://hono.dev/).
 
 ## License
 

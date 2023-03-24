@@ -6,7 +6,6 @@ import { defaultRoute, loginRoute, userRoute } from './routes/mod.ts'
 import { throwResponse } from './libraries/response.ts'
 
 const app = new Hono()
-const port = Number(Deno.env.get('PORT')) || 8090
 
 // Custom error response
 app.notFound((c) => throwResponse(c, 404, 'resource not found'))
@@ -28,8 +27,5 @@ app.route('/', defaultRoute)
 app.route('/users', userRoute)
 app.route('/login', loginRoute)
 
-// Finally, start the server
-// await serve(app.fetch, { port })
-
-export { port, serve }
+export { serve }
 export default app

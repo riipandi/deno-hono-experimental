@@ -16,11 +16,11 @@ processes = []
   # release_command = "deno task db:migrate"
 
 [env]
-  PORT = "8090"
+  PORT = "9999"
   PRIMARY_REGION = "sjc"
 
 [[services]]
-  internal_port = 8090
+  internal_port = 9999
   processes = ["app"]
   protocol = "tcp"
   script_checks = []

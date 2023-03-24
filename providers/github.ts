@@ -2,11 +2,11 @@ import config from '../config.ts'
 import { Context, OAuth2Client, OAuth2Tokens } from '../deps.ts'
 
 export const oauth2Client = new OAuth2Client({
-  clientId: Deno.env.get('GITHUB_CLIENT_ID')!,
-  clientSecret: Deno.env.get('GITHUB_CLIENT_SECRET')!,
+  clientId: Deno.env.get('FASTRUE_EXTERNAL_GITHUB_CLIENT_ID')!,
+  clientSecret: Deno.env.get('FASTRUE_EXTERNAL_GITHUB_SECRET')!,
   authorizationEndpointUri: 'https://github.com/login/oauth/authorize',
   tokenUri: 'https://github.com/login/oauth/access_token',
-  redirectUri: `${config.baseUrl}/login/callback/github`,
+  redirectUri: `${config.baseUrl}/callback`,
   defaults: { scope: 'read:user' },
 })
 

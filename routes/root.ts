@@ -1,23 +1,36 @@
-import { bearerAuth, Context, Hono } from '../deps.ts'
-import { jsonResponse, throwResponse } from '../libraries/response.ts'
+import { Context, Hono } from '../deps.ts'
+import { jsonResponse } from '../libraries/response.ts'
 
 const app = new Hono()
 
 app.get('/', (c: Context) => jsonResponse(c, `Hello from ${c.runtime}`))
 app.get('/health', (c: Context) => jsonResponse(c, 'All is well!'))
 
-app.get('/hello', (c) => {
-  const name = c.req.valid('query')
-  return (!name)
-    ? throwResponse(c, 404, 'Name required')
-    : jsonResponse(c, `Hello ${name}!`, undefined, 201)
-})
+app.get('/settings', (c: Context) => {
+  const result = {
+    'external': {
+      'apple': true,
+      'azure': true,
+      'bitbucket': true,
+      'discord': true,
+      'facebook': true,
+      'github': true,
+      'gitlab': true,
+      'google': true,
+      'keycloak': true,
+      'linkedin': true,
+      'notion': true,
+      'slack': true,
+      'spotify': true,
+      'twitch': true,
+      'twitter': true,
+      'workos': true,
+    },
+    'disable_signup': false,
+    'autoconfirm': false,
+  }
 
-app.get('/system', bearerAuth({ token: 'secret' }), (c) => {
-  const userAgent = c.req.header('User-Agent')
-  return jsonResponse(c, 'success', { userAgent })
+  return c.json(result, 200)
 })
-
-app.get('/secure', (c) => jsonResponse(c, `Secure endpoint`))
 
 export { app as defaultRoute }

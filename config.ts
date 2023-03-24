@@ -1,35 +1,44 @@
 import 'https://deno.land/x/dotenv@v3.2.2/load.ts'
-import type { ClientOptions, ConnectionString } from './deps.ts'
+import type { ConnectionString } from './deps.ts'
 
-export const databaseUrl: ConnectionString | undefined = Deno.env.get(
-  'DATABASE_URL',
-)
+const databaseUrl: ConnectionString = Deno.env.get('DATABASE_URL')!
 
-export const dbConfig: ClientOptions = {
-  applicationName: 'fastrue',
-  hostname: Deno.env.get('DB_HOST'),
-  port: Deno.env.get('DB_PORT'),
-  database: Deno.env.get('DB_DATABASE'),
-  user: Deno.env.get('DB_USER'),
-  password: Deno.env.get('DB_PASSWORD'),
-  options: Deno.env.get('DB_OPTIONS'),
+const corsConfig: {
+  origin: string | string[] | ((origin: string) => string | undefined | null)
+  allowMethods?: string[]
+  allowHeaders?: string[]
+  maxAge?: number
+  credentials?: boolean
+  exposeHeaders?: string[]
+} = {
+  origin: '*',
+  allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+  allowHeaders: [],
+  exposeHeaders: [],
+  maxAge: 3600,
+  credentials: false,
+  // exposeHeaders: ['*'],
+}
+
+const jwtConfig: {
+  secret: string
+  cookie?: string
+  alg?: string
+} = {
+  alg: 'HS256',
+  secret: 'secret',
+  cookie: 'sess_token',
 }
 
 const appConfig = {
-  baseUrl: Deno.env.get('APP_BASE_URL') || 'http://localhost:8090',
-  connectionPool: Deno.env.get('DATABASE_POOL') || false,
-  cors: {
-    origin: '*',
-    allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
-    allowMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    credentials: true,
-    maxAge: 600,
+  port: Number(Deno.env.get('PORT')) || 9999,
+  baseUrl: Deno.env.get('FASTRUE_BASE_URL') || 'http://localhost:9999',
+  database: {
+    url: databaseUrl,
+    pool: Deno.env.get('DATABASE_POOL') || false,
   },
-  jwt: {
-    alg: 'HS256',
-    secret: 'secret',
-    cookie: 'sess_token',
-  },
+  cors: corsConfig,
+  jwt: jwtConfig,
 }
 
 export default appConfig

@@ -2,6 +2,9 @@
   "tasks": {
     "run": "deno run --allow-read --allow-net --allow-env --watch fastrue.ts",
     "compile": "deno compile --allow-read --allow-net --allow-env fastrue.ts",
+    "migrate": "deno run --allow-read --allow-net --allow-env fastrue.ts migrate",
+    "status": "deno run --allow-read --allow-net --allow-env fastrue.ts migrate-status",
+    "rollback": "deno run --allow-read --allow-net --allow-env fastrue.ts migrate",
     "db:make-migration": "deno run -A https://deno.land/x/nessie/cli.ts make:migration",
     "db:make-seeder": "deno run -A https://deno.land/x/nessie/cli.ts make:seed",
     "db:status": "deno run -A https://deno.land/x/nessie/cli.ts status",
