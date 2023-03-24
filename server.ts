@@ -1,9 +1,10 @@
 import { Hono, HTTPException, serve } from './deps.ts'
-import { cors, etag, jwt, logger, prettyJSON } from './deps.ts'
+import { cors, etag, jwt, prettyJSON } from './deps.ts'
 import config from './config.ts'
 
 import { defaultRoute, loginRoute, userRoute } from './routes/mod.ts'
 import { throwResponse } from './libraries/response.ts'
+import { logger } from './libraries/logger.ts'
 
 const app = new Hono()
 const version = '0.1.0'

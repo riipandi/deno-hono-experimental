@@ -12,9 +12,11 @@ export {
   cors,
   etag,
   jwt,
-  logger,
   prettyJSON,
 } from 'https://deno.land/x/hono@v3.1.2/middleware.ts'
+
+export type { MiddlewareHandler } from 'https://deno.land/x/hono@v3.1.2/types.ts'
+export { getPathFromURL } from 'https://deno.land/x/hono@v3.1.2/utils/url.ts'
 
 export { Pool } from 'https://deno.land/x/postgres@v0.17.0/pool.ts'
 export { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
