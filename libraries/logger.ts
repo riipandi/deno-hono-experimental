@@ -67,6 +67,7 @@ export const logger = (fn: PrintFunc = console.log): MiddlewareHandler => {
     const userAgent = c.req.header('User-Agent') as string
     const forwarded = c.req.header('X-Forwarded-For') as string
     const clientAddr = forwarded ? forwarded.split(/, /)[0] : c.req.referrer
+    // fetch("https://checkip.amazonaws.com/").then(res => res.text()).then(data => console.log(data))
 
     await next()
 
