@@ -76,7 +76,7 @@ export const logger = (fn: PrintFunc = console.log): MiddlewareHandler => {
     const userAgent = c.req.header('User-Agent') as string
 
     const forwarded = c.req.header('X-Forwarded-For') as string
-    const clientFwdAddr = forwarded ? forwarded.split(/, /)[0] : c.req.referrer
+    const clientFwdAddr = forwarded ? forwarded.split(/, /)[0] : '---'
     const clientAddr = c.req.header('Fly-Client-IP')
       ? c.req.header('Fly-Client-IP')
       : clientFwdAddr
