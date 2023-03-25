@@ -11,7 +11,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   }
 
   async down(_ctx: Info): Promise<void> {
-    // Running when migration rollback
     await this.client.queryArray(`DROP TABLE ${dbPrefix}.tableName`)
   }
 }
