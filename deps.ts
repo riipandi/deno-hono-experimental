@@ -8,7 +8,6 @@ export type { Context } from 'https://deno.land/x/hono@v3.1.2/mod.ts'
 export { HTTPException } from 'https://deno.land/x/hono@v3.1.2/http-exception.ts'
 export { Hono } from 'https://deno.land/x/hono@v3.1.2/mod.ts'
 export {
-  bearerAuth,
   cors,
   etag,
   jwt,
