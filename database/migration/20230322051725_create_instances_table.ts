@@ -1,10 +1,13 @@
 import { ClientPostgreSQL, Info } from '../../deps.ts'
 import { ExtendedMigration } from '../abstract.ts'
+import config from '../../config.ts'
+
+const { schema: dbPrefix } = config.database
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      CREATE TABLE public.instances (
+      CREATE TABLE ${dbPrefix}.instances (
         id uuid NOT NULL,
         uuid uuid NULL,
         raw_base_config text NULL,
@@ -13,11 +16,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         CONSTRAINT instances_pkey PRIMARY KEY (id)
       )
     `)
-    // this.someHelperFunction();
   }
 
   async down(_ctx: Info): Promise<void> {
-    // Running when migration rollback
-    await this.client.queryArray(`DROP TABLE IF EXISTS public.instances`)
+    await this.client.queryArray(`DROP TABLE IF EXISTS ${dbPrefix}.instances`)
   }
 }

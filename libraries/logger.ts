@@ -1,9 +1,4 @@
-import {
-  Context,
-  getPathFromURL,
-  type MiddlewareHandler,
-  StatusCode,
-} from '../deps.ts'
+import { Context, getPathFromURL, type MiddlewareHandler, StatusCode } from '../deps.ts'
 import { formatDateTime } from '../deps.ts'
 
 enum LogPrefix {
@@ -15,9 +10,7 @@ enum LogPrefix {
 const humanize = (times: string[]) => {
   const [delimiter, separator] = [',', '.']
 
-  const orderTimes = times.map((v) =>
-    v.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + delimiter)
-  )
+  const orderTimes = times.map((v) => v.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + delimiter))
 
   return orderTimes.join(separator)
 }
@@ -77,9 +70,7 @@ export const logger = (fn: PrintFunc = console.log): MiddlewareHandler => {
 
     const forwarded = c.req.header('X-Forwarded-For') as string
     const clientFwdAddr = forwarded ? forwarded.split(/, /)[0] : '---'
-    const clientAddr = c.req.header('Fly-Client-IP')
-      ? c.req.header('Fly-Client-IP')
-      : clientFwdAddr
+    const clientAddr = c.req.header('Fly-Client-IP') ? c.req.header('Fly-Client-IP') : clientFwdAddr
 
     await next()
 

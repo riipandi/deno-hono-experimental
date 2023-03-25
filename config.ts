@@ -36,6 +36,7 @@ const appConfig = {
   database: {
     url: databaseUrl,
     pool: getEnvar('DATABASE_POOL') || false,
+    schema: getEnvar('DATABASE_NAMESPACE') || 'public',
   },
   cors: corsConfig,
   jwt: jwtConfig,

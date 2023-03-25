@@ -6,12 +6,10 @@ const { schema: dbPrefix } = config.database
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`CREATE TABLE ${dbPrefix}.tableName (id uuid)`)
-    // this.someHelperFunction();
+    await this.client.queryArray(`CREATE SCHEMA IF NOT EXISTS "${dbPrefix}"`)
   }
 
   async down(_ctx: Info): Promise<void> {
-    // Running when migration rollback
-    await this.client.queryArray(`DROP TABLE ${dbPrefix}.tableName`)
+    await this.client.queryArray(`DROP SCHEMA IF EXISTS "${dbPrefix}"`)
   }
 }

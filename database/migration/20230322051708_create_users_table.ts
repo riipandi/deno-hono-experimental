@@ -1,10 +1,13 @@
 import { ClientPostgreSQL, Info } from '../../deps.ts'
 import { ExtendedMigration } from '../abstract.ts'
+import config from '../../config.ts'
+
+const { schema: dbPrefix } = config.database
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      CREATE TABLE IF NOT EXISTS public.users (
+      CREATE TABLE IF NOT EXISTS ${dbPrefix}.users (
         instance_id uuid NULL,
         id uuid NOT NULL,
         aud varchar(255) NULL,
@@ -30,20 +33,16 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       )
     `)
     await this.client.queryArray(
-      `CREATE INDEX users_instance_id_email_idx ON public.users USING btree (instance_id, email)`,
+      `CREATE INDEX users_instance_id_email_idx ON ${dbPrefix}.users USING btree (instance_id, email)`,
     )
     await this.client.queryArray(
-      `CREATE INDEX users_instance_id_idx ON public.users USING btree (instance_id)`,
+      `CREATE INDEX users_instance_id_idx ON ${dbPrefix}.users USING btree (instance_id)`,
     )
-    // this.someHelperFunction();
   }
 
   async down(_ctx: Info): Promise<void> {
-    // Running when migration rollback
-    await this.client.queryArray(
-      `DROP INDEX public.users_instance_id_email_idx`,
-    )
-    await this.client.queryArray(`DROP INDEX public.users_instance_id_idx`)
-    await this.client.queryArray(`DROP TABLE IF EXISTS public.users`)
+    await this.client.queryArray(`DROP INDEX ${dbPrefix}.users_instance_id_email_idx`)
+    await this.client.queryArray(`DROP INDEX ${dbPrefix}.users_instance_id_idx`)
+    await this.client.queryArray(`DROP TABLE IF EXISTS ${dbPrefix}.users`)
   }
 }
