@@ -35,8 +35,8 @@ const appConfig = {
   baseUrl: getEnvar('FASTRUE_BASE_URL') || 'http://localhost:9999',
   database: {
     url: databaseUrl,
-    pool: getEnvar('DATABASE_POOL') || false,
     schema: getEnvar('DATABASE_NAMESPACE') || 'public',
+    pool: getEnvar('DATABASE_POOL') || false,
   },
   cors: corsConfig,
   jwt: jwtConfig,
