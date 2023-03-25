@@ -1,10 +1,12 @@
 import { Context, Hono } from '../deps.ts'
+import { getAuthTokenFromHeader } from '../libraries/jwt_utils.ts'
 import { jsonResponse } from '../libraries/response.ts'
 
 const app = new Hono()
 
 app.post('/users', (c: Context) => {
-  return jsonResponse(c, `admin create user endpoint`)
+  const token = getAuthTokenFromHeader(c)
+  return jsonResponse(c, token)
 })
 
 app.put('/users/:user_id', (c: Context) => {
