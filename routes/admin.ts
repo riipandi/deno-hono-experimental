@@ -1,12 +1,16 @@
 import { Context, Hono } from '../deps.ts'
-import { getAuthTokenFromHeader } from '../libraries/jwt_utils.ts'
+import { getAuthTokenFromHeader, verifyJwt } from '../libraries/jwt_utils.ts'
 import { jsonResponse } from '../libraries/response.ts'
 
 const app = new Hono()
 
-app.post('/users', (c: Context) => {
+app.post('/users', async (c: Context) => {
   const token = getAuthTokenFromHeader(c)
-  return jsonResponse(c, token)
+  const valid = await verifyJwt(token)
+  return jsonResponse(c, undefined, {
+    token,
+    valid,
+  })
 })
 
 app.put('/users/:user_id', (c: Context) => {
