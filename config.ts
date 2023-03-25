@@ -20,7 +20,7 @@ const corsConfig: {
   origin: '*',
   allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
   allowHeaders: [],
-  maxAge: 3600,
+  maxAge: 21600,
   credentials: false,
   exposeHeaders: ['X-Forwarded-For'],
 }

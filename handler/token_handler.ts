@@ -14,7 +14,7 @@ export default async function handler(c: Context) {
     access_token,
     'refresh_token': 'a-refresh-token',
     'token_type': 'bearer',
-    'expires_in': 3600,
+    'expires_in': 21600,
   }
 
   return jsonResponse(c, undefined, data)
