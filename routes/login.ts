@@ -47,7 +47,7 @@ app.get('/callback/github', async (c: Context) => {
   // }
 
   // Exchange the authorization code for an access token
-  const { accessToken } = await getToken(c, codeVerifier)
+  const { accessToken } = await getToken(c.req.url, codeVerifier)
 
   // Use the access token to make an authenticated API request
   const result = await getUserDetails(accessToken)

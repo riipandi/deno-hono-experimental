@@ -1,9 +1,10 @@
 import config from '../config.ts'
 import { Context, OAuth2Client, OAuth2Tokens } from '../deps.ts'
+import { getEnvar } from '../libraries/config_utils.ts'
 
 export const oauth2Client = new OAuth2Client({
-  clientId: Deno.env.get('FASTRUE_EXTERNAL_GITHUB_CLIENT_ID')!,
-  clientSecret: Deno.env.get('FASTRUE_EXTERNAL_GITHUB_SECRET')!,
+  clientId: getEnvar('FASTRUE_EXTERNAL_GITHUB_CLIENT_ID')!,
+  clientSecret: getEnvar('FASTRUE_EXTERNAL_GITHUB_SECRET')!,
   authorizationEndpointUri: 'https://github.com/login/oauth/authorize',
   tokenUri: 'https://github.com/login/oauth/access_token',
   redirectUri: `${config.baseUrl}/callback`,
@@ -11,12 +12,10 @@ export const oauth2Client = new OAuth2Client({
 })
 
 export const getToken = async (
-  c: Context,
+  responseUrl: string | URL,
   codeVerifier: string,
 ): Promise<OAuth2Tokens> => {
-  return await oauth2Client.code.getToken(c.req.url, {
-    codeVerifier,
-  })
+  return await oauth2Client.code.getToken(responseUrl, { codeVerifier })
 }
 
 export const getUserDetails = async (accessToken: string) => {
