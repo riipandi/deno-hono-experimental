@@ -17,18 +17,16 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
           updated_at timestamptz NULL,
           CONSTRAINT identities_pkey PRIMARY KEY (provider, id),
           CONSTRAINT identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) ON DELETE CASCADE
-      )
+      );
+      CREATE INDEX IF NOT EXISTS identities_user_id_idx ON ${dbPrefix}.identities using btree (user_id);
+      COMMENT ON TABLE ${dbPrefix}.identities is 'Auth: Stores identities associated to a user.'
     `)
-    await this.client.queryArray(
-      `CREATE INDEX IF NOT EXISTS identities_user_id_idx ON ${dbPrefix}.identities using btree (user_id)`,
-    )
-    await this.client.queryArray(
-      `COMMENT ON TABLE ${dbPrefix}.identities is 'Auth: Stores identities associated to a user.'`,
-    )
   }
 
   async down(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.identities_user_id_idx`)
-    await this.client.queryArray(`DROP TABLE IF EXISTS ${dbPrefix}.identities`)
+    await this.client.queryArray(`
+      DROP INDEX IF EXISTS ${dbPrefix}.identities_user_id_idx;
+      DROP TABLE IF EXISTS ${dbPrefix}.identities;
+    `)
   }
 }

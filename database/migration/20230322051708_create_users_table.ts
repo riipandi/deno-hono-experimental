@@ -36,47 +36,37 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         raw_app_meta_data jsonb NULL,
         raw_user_meta_data jsonb NULL,
         is_super_admin bool NULL,
+        is_sso_user boolean NOT NULL default false,
         created_at timestamptz NULL,
         updated_at timestamptz NULL,
         confirmed_at timestamptz GENERATED ALWAYS AS (LEAST (${dbPrefix}.users.email_confirmed_at, ${dbPrefix}.users.phone_confirmed_at)) STORED,
         banned_until timestamptz NULL,
         CONSTRAINT users_pkey PRIMARY KEY (id)
-      )
+      );
+
+      CREATE INDEX IF NOT EXISTS users_instance_id_email_idx on ${dbPrefix}.users using btree (instance_id, lower(email));
+      CREATE INDEX IF NOT EXISTS users_instance_id_idx ON ${dbPrefix}.users USING btree (instance_id);
+      CREATE UNIQUE INDEX IF NOT EXISTS confirmation_token_idx ON ${dbPrefix}.users USING btree (confirmation_token) WHERE confirmation_token !~ '^[0-9 ]*$';
+      CREATE UNIQUE INDEX IF NOT EXISTS recovery_token_idx ON ${dbPrefix}.users USING btree (recovery_token) WHERE recovery_token !~ '^[0-9 ]*$';
+      CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_current_idx ON ${dbPrefix}.users USING btree (email_change_token_current) WHERE email_change_token_current !~ '^[0-9 ]*$';
+      CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_new_idx ON ${dbPrefix}.users USING btree (email_change_token_new) WHERE email_change_token_new !~ '^[0-9 ]*$';
+      CREATE UNIQUE INDEX IF NOT EXISTS reauthentication_token_idx ON ${dbPrefix}.users USING btree (reauthentication_token) WHERE reauthentication_token !~ '^[0-9 ]*$';
+
+      COMMENT ON TABLE ${dbPrefix}.users is 'Auth: Stores user login data within a secure schema.';
+      COMMENT ON COLUMN ${dbPrefix}.users.is_sso_user is 'Auth: Set this column to true when the account comes from SSO. These accounts can have duplicate emails.';
     `)
-    await this.client.queryArray(
-      `CREATE INDEX IF NOT EXISTS users_instance_id_email_idx on ${dbPrefix}.users using btree (instance_id, lower(email))`,
-    )
-    await this.client.queryArray(
-      `CREATE INDEX IF NOT EXISTS users_instance_id_idx ON ${dbPrefix}.users USING btree (instance_id)`,
-    )
-    await this.client.queryArray(
-      `CREATE UNIQUE INDEX IF NOT EXISTS confirmation_token_idx ON ${dbPrefix}.users USING btree (confirmation_token) WHERE confirmation_token !~ '^[0-9 ]*$'`,
-    )
-    await this.client.queryArray(
-      `CREATE UNIQUE INDEX IF NOT EXISTS recovery_token_idx ON ${dbPrefix}.users USING btree (recovery_token) WHERE recovery_token !~ '^[0-9 ]*$'`,
-    )
-    await this.client.queryArray(
-      `CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_current_idx ON ${dbPrefix}.users USING btree (email_change_token_current) WHERE email_change_token_current !~ '^[0-9 ]*$'`,
-    )
-    await this.client.queryArray(
-      `CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_new_idx ON ${dbPrefix}.users USING btree (email_change_token_new) WHERE email_change_token_new !~ '^[0-9 ]*$'`,
-    )
-    await this.client.queryArray(
-      `CREATE UNIQUE INDEX IF NOT EXISTS reauthentication_token_idx ON ${dbPrefix}.users USING btree (reauthentication_token) WHERE reauthentication_token !~ '^[0-9 ]*$'`,
-    )
-    await this.client.queryArray(
-      `COMMENT ON TABLE ${dbPrefix}.users is 'Auth: Stores user login data within a secure schema.'`,
-    )
   }
 
   async down(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_email_idx`)
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_idx`)
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.confirmation_token_idx`)
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.recovery_token_idx`)
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.email_change_token_current_idx`)
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.email_change_token_new_idx`)
-    await this.client.queryArray(`DROP INDEX IF EXISTS ${dbPrefix}.reauthentication_token_idx`)
-    await this.client.queryArray(`DROP TABLE IF EXISTS ${dbPrefix}.users`)
+    await this.client.queryArray(`
+      DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_email_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.confirmation_token_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.recovery_token_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.email_change_token_current_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.email_change_token_new_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.reauthentication_token_idx;
+      DROP TABLE IF EXISTS ${dbPrefix}.users
+    `)
   }
 }

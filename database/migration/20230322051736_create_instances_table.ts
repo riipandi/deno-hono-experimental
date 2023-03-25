@@ -14,11 +14,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         created_at timestamptz NULL,
         updated_at timestamptz NULL,
         CONSTRAINT instances_pkey PRIMARY KEY (id)
-      )
+      );
+      COMMENT ON TABLE ${dbPrefix}.instances is 'Auth: Manages users across multiple sites.';
     `)
-    await this.client.queryArray(
-      `COMMENT ON TABLE ${dbPrefix}.instances is 'Auth: Manages users across multiple sites.'`,
-    )
   }
 
   async down(_ctx: Info): Promise<void> {

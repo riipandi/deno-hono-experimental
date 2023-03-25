@@ -7,15 +7,14 @@ const { schema: dbPrefix } = config.database
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      create or replace function ${dbPrefix}.jwt()
+      CREATE OR REPLACE FUNCTION ${dbPrefix}.jwt()
       returns jsonb
       language sql stable
       as $$
-        select
-          coalesce(
-              nullif(current_setting('request.jwt.claim', true), ''),
-              nullif(current_setting('request.jwt.claims', true), '')
-          )::jsonb
+        select coalesce(
+          nullif(current_setting('request.jwt.claim', true), ''),
+          nullif(current_setting('request.jwt.claims', true), '')
+        )::jsonb
       $$;
     `)
   }
