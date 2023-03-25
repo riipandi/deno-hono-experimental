@@ -12,7 +12,7 @@ export class ExtendedMigration<T extends AbstractClient<any> = any> extends Abst
     throw new Error('Method not implemented.')
   }
 
-  someHelperFunction() {
+  generateUid() {
     console.log('Hey, I am available to all child classes!')
   }
 }
@@ -23,7 +23,7 @@ export class ExtendedSeeder extends AbstractSeed<ClientPostgreSQL> {
     throw new Error('Method not implemented.')
   }
 
-  someHelperFunction() {
+  generateUid() {
     console.log('Hey, I am available to all child classes!')
   }
 }
