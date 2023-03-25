@@ -17,7 +17,7 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       )
     `)
     await this.client.queryArray(
-      `CREATE INDEX audit_logs_instance_id_idx ON ${dbPrefix}.audit_log_entries USING btree (instance_id)`,
+      `CREATE INDEX IF NOT EXISTS audit_logs_instance_id_idx ON ${dbPrefix}.audit_log_entries USING btree (instance_id)`,
     )
     await this.client.queryArray(
       `COMMENT ON TABLE ${dbPrefix}.audit_log_entries is 'Auth: Audit trail for user actions.'`,

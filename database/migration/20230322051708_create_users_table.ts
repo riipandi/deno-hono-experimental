@@ -47,7 +47,7 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       `CREATE INDEX IF NOT EXISTS users_instance_id_email_idx on ${dbPrefix}.users using btree (instance_id, lower(email))`,
     )
     await this.client.queryArray(
-      `CREATE INDEX users_instance_id_idx ON ${dbPrefix}.users USING btree (instance_id)`,
+      `CREATE INDEX IF NOT EXISTS users_instance_id_idx ON ${dbPrefix}.users USING btree (instance_id)`,
     )
     await this.client.queryArray(
       `CREATE UNIQUE INDEX IF NOT EXISTS confirmation_token_idx ON ${dbPrefix}.users USING btree (confirmation_token) WHERE confirmation_token !~ '^[0-9 ]*$'`,

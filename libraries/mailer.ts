@@ -17,7 +17,7 @@ export type SendMailParams = {
 
 export async function sendMail(to: string, params: SendMailParams) {
   const from = 'aris@duck.com'
-  // await smtpClient.connectTLS(smtpConfig);
+  // await smtpClient.connectTLS(smtpConfig)
   await smtpClient.connect(smtpConfig)
   await smtpClient.send({ from, to, ...params })
   await smtpClient.close()

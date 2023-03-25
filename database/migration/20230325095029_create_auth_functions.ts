@@ -21,6 +21,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   }
 
   async down(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`DROP FUNCTION IF EXISTS ${dbPrefix}.jwt();`)
+    await this.client.queryArray(`DROP FUNCTION IF EXISTS ${dbPrefix}.jwt()`)
   }
 }

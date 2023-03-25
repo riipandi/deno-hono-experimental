@@ -6,11 +6,11 @@ const { schema: dbPrefix } = config.database
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
-    // this.generateUid();
+    // this.generateUid()
     await this.client.queryArray(`CREATE TABLE ${dbPrefix}.tableName (id uuid)`)
   }
 
   async down(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`DROP TABLE ${dbPrefix}.tableName`)
+    await this.client.queryArray(`DROP TABLE IF EXISTS ${dbPrefix}.tableName`)
   }
 }

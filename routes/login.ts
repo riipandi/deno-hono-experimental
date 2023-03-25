@@ -43,7 +43,7 @@ app.get('/callback/github', async (c: Context) => {
   const codeVerifier = c.get('codeVerifier')
 
   // if (typeof codeVerifier !== "string") {
-  //   return throwResponse(c, 400, "invalid codeVerifier");
+  //   return throwResponse(c, 400, "invalid codeVerifier")
   // }
 
   // Exchange the authorization code for an access token
