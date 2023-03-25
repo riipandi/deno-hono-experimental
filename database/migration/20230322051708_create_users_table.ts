@@ -25,9 +25,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         email_change_sent_at timestamptz NULL,
         email_change_token_current varchar(255) null DEFAULT '',
         email_change_confirm_status smallint DEFAULT 0 CHECK (email_change_confirm_status >= 0 AND email_change_confirm_status <= 2),
-        phone VARCHAR(15) NULL UNIQUE DEFAULT NULL,
+        phone text NULL UNIQUE DEFAULT NULL,
         phone_confirmed_at timestamptz NULL DEFAULT NULL,
-        phone_change VARCHAR(15) NULL DEFAULT '',
+        phone_change text NULL DEFAULT '',
         phone_change_token VARCHAR(255) NULL DEFAULT '',
         phone_change_sent_at timestamptz NULL DEFAULT NULL,
         reauthentication_token varchar(255) null default '',
@@ -39,6 +39,7 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         is_sso_user boolean NOT NULL default false,
         created_at timestamptz NULL,
         updated_at timestamptz NULL,
+        deleted_at timestamptz NULL,
         confirmed_at timestamptz GENERATED ALWAYS AS (LEAST (${dbPrefix}.users.email_confirmed_at, ${dbPrefix}.users.phone_confirmed_at)) STORED,
         banned_until timestamptz NULL,
         CONSTRAINT users_pkey PRIMARY KEY (id)
@@ -51,16 +52,19 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_current_idx ON ${dbPrefix}.users USING btree (email_change_token_current) WHERE email_change_token_current !~ '^[0-9 ]*$';
       CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_new_idx ON ${dbPrefix}.users USING btree (email_change_token_new) WHERE email_change_token_new !~ '^[0-9 ]*$';
       CREATE UNIQUE INDEX IF NOT EXISTS reauthentication_token_idx ON ${dbPrefix}.users USING btree (reauthentication_token) WHERE reauthentication_token !~ '^[0-9 ]*$';
+      CREATE UNIQUE INDEX IF NOT EXISTS users_email_partial_key ON ${dbPrefix}.users (email) WHERE (is_sso_user = false);
 
       COMMENT ON TABLE ${dbPrefix}.users is 'Auth: Stores user login data within a secure schema.';
       COMMENT ON COLUMN ${dbPrefix}.users.is_sso_user is 'Auth: Set this column to true when the account comes from SSO. These accounts can have duplicate emails.';
+      COMMENT ON INDEX ${dbPrefix}.users_email_partial_key is 'Auth: A partial unique index that applies only when is_sso_user is false';
     `)
   }
 
   async down(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_email_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_email_idx;
+      DROP INDEX IF EXISTS ${dbPrefix}.users_email_partial_key;
       DROP INDEX IF EXISTS ${dbPrefix}.confirmation_token_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.recovery_token_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.email_change_token_current_idx;

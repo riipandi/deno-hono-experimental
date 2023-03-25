@@ -2,6 +2,11 @@ import 'https://deno.land/x/dotenv@v3.2.2/load.ts'
 import type { ConnectionString } from './deps.ts'
 import { getEnvar } from './libraries/config_utils.ts'
 
+export enum DatabaseDriver {
+  Postgres = 'postgres',
+  Cockroach = 'cockroach',
+}
+
 const databaseUrl: ConnectionString = getEnvar('DATABASE_URL')!
 
 const corsConfig: {
@@ -35,6 +40,7 @@ const appConfig = {
   baseUrl: getEnvar('FASTRUE_BASE_URL') || 'http://localhost:9999',
   database: {
     url: databaseUrl,
+    driver: getEnvar('FASTRUE_DB_DRIVER') || DatabaseDriver.Postgres,
     schema: getEnvar('DATABASE_NAMESPACE') || 'public',
     pool: getEnvar('DATABASE_POOL') || false,
   },

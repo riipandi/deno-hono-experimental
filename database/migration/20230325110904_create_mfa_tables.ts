@@ -7,8 +7,8 @@ const { schema: dbPrefix } = config.database
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      CREATE TYPE IF NOT EXISTS factor_type AS ENUM('totp', 'webauthn');
-      CREATE TYPE IF NOT EXISTS factor_status AS ENUM('unverified', 'verified');
+      CREATE TYPE factor_type AS ENUM('totp', 'webauthn');
+      CREATE TYPE factor_status AS ENUM('unverified', 'verified');
     `)
 
     await this.client.queryArray(`

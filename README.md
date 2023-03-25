@@ -17,6 +17,13 @@ GoTrue is a JWT based API for managing users and issuing JWT tokens from Netlify
 
 ## Quick Start
 
+### Database Connection
+
+```plain
+Postgres  : postgres://postgres:postgres@127.0.0.1:5432/fastrue?sslmode=disable
+Cockroach : postgres://root@127.0.0.1:26257/fastrue?sslmode=disable
+```
+
 ### Database Tasks
 ```sh
 deno task db:make-migration create_users

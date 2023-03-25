@@ -7,7 +7,7 @@ const { schema: dbPrefix } = config.database
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      CREATE TYPE IF NOT EXISTS aal_level as ENUM('aal1', 'aal2', 'aal3');
+      CREATE TYPE aal_level as ENUM('aal1', 'aal2', 'aal3');
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.sessions (
         id uuid not null,
         user_id uuid not null,

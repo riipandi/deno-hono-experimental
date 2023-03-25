@@ -74,25 +74,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE INDEX IF NOT EXISTS saml_relay_states_for_email_idx on ${dbPrefix}.saml_relay_states (for_email);
       COMMENT ON TABLE ${dbPrefix}.saml_relay_states is 'Auth: Contains SAML Relay State information for each Service Provider initiated login.';
     `)
-
-    await this.client.queryArray(`
-      CREATE TABLE IF NOT EXISTS ${dbPrefix}.sso_sessions (
-        id uuid not null,
-        session_id uuid not null,
-        sso_provider_id uuid null,
-        not_before timestamptz null,
-        not_after timestamptz null,
-        idp_initiated boolean default false,
-        created_at timestamptz null,
-        updated_at timestamptz null,
-        PRIMARY KEY (id),
-        FOREIGN KEY (session_id) REFERENCES ${dbPrefix}.sessions (id) ON DELETE CASCADE,
-        FOREIGN KEY (sso_provider_id) REFERENCES ${dbPrefix}.sso_providers (id) ON DELETE CASCADE
-      );
-      CREATE INDEX IF NOT EXISTS sso_sessions_session_id_idx on ${dbPrefix}.sso_sessions (session_id);
-      CREATE INDEX IF NOT EXISTS sso_sessions_sso_provider_id_idx on ${dbPrefix}.sso_sessions (sso_provider_id);
-      COMMENT ON TABLE ${dbPrefix}.sso_sessions is 'Auth: A session initiated by an SSO Identity Provider';
-    `)
   }
 
   async down(_ctx: Info): Promise<void> {
@@ -111,12 +92,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       DROP INDEX IF EXISTS ${dbPrefix}.saml_relay_states_sso_provider_id_idx;
       DROP TABLE IF EXISTS ${dbPrefix}.saml_relay_states;
       DROP INDEX IF EXISTS ${dbPrefix}.saml_relay_states_for_email_idx;
-    `)
-
-    await this.client.queryArray(`
-      DROP INDEX IF EXISTS ${dbPrefix}.sso_sessions_session_id_idx;
-      DROP INDEX IF EXISTS ${dbPrefix}.sso_sessions_sso_provider_id_idx;
-      DROP TABLE IF EXISTS ${dbPrefix}.sso_sessions
     `)
 
     await this.client.queryArray(`

@@ -38,7 +38,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_instance_id_user_id_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_token_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_parent_idx;
-      DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_parent_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_session_id_revoked_idx;
       DROP TABLE IF EXISTS ${dbPrefix}.refresh_tokens;
     `)
