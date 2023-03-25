@@ -1,16 +1,7 @@
-import { Context, Hono } from '../deps.ts'
+import { Context } from '../deps.ts'
 import { jsonResponse } from '../libraries/response.ts'
-import { version } from '../server.ts'
 
-const app = new Hono()
-
-app.get('/', (c: Context) => {
-  return jsonResponse(c, `Fastrue ${version}`, {
-    runtime: c.runtime,
-  })
-})
-
-app.get('/settings', (c: Context) => {
+export default function handler(c: Context) {
   const data = {
     'external': {
       'apple': true,
@@ -35,6 +26,4 @@ app.get('/settings', (c: Context) => {
   }
 
   return jsonResponse(c, undefined, data)
-})
-
-export { app as defaultRoute }
+}

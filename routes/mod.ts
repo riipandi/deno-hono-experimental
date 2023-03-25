@@ -1,3 +1,3 @@
-export * from './login.ts'
+export * from './admin.ts'
+export * from './verify.ts'
 export * from './user.ts'
-export * from './root.ts'
