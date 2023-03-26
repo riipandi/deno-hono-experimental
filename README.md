@@ -9,11 +9,12 @@
 
 <hr/>
 
-> WARNING: Work in Progress!!
+> **WARNING!** This project still in development.
+> Everything is experimental, breaking changes can happen and the long-term purpose of this project is not yet clear, use at your own risk!
 
-Fastrue is GoTrue compatible headless authentication server.
+Headless authentication server for securing your apps, inspired by Netlify GoTrue, but built with [Deno](https://deno.land/).
 
-GoTrue is a JWT based API for managing users and issuing JWT tokens from Netlify.
+[GoTrue](https://github.com/netlify/gotrue) is a JWT based API for managing users and issuing JWT tokens from Netlify.
 
 ## Quick Start
 
@@ -53,7 +54,7 @@ deno task compile
 ### Test with curl
 
 ```sh
-curl -H 'Authorization: Bearer secret' http://localhost:9999/login
+curl -H 'Authorization: Bearer secret' http://localhost:9999/token
 ```
 
 ## Further help
