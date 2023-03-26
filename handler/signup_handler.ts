@@ -10,8 +10,8 @@ export default async function handler(c: Context) {
   }
 
   if (body.email !== undefined && body.phone !== undefined) {
-    const msg = 'Only an email address or phone number should be provided on signup.'
-    return throwResponse(c, 422, msg)
+    const message = 'Only an email address or phone number should be provided on signup.'
+    return throwResponse(c, 422, message)
   }
 
   const userExists = false
