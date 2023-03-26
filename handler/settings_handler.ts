@@ -21,9 +21,16 @@ export default function handler(c: Context) {
       'twitch': Boolean(getEnvar('FASTRUE_EXTERNAL_TWITCH_ENABLED')),
       'twitter': Boolean(getEnvar('FASTRUE_EXTERNAL_TWITTER_ENABLED')),
       'workos': Boolean(getEnvar('FASTRUE_EXTERNAL_WORKOS_ENABLED')),
+      'email': true,
+      'phone': false,
+      'saml': false,
+      'zoom': false,
     },
     'disable_signup': Boolean(getEnvar('FASTRUE_DISABLE_SIGNUP')),
-    'autoconfirm': Boolean(getEnvar('FASTRUE_MAILER_AUTOCONFIRM')),
+    'mailer_autoconfirm': Boolean(getEnvar('FASTRUE_MAILER_AUTOCONFIRM')),
+    'phone_autoconfirm': false,
+    'sms_provider': 'twilio',
+    'mfa_enabled': false,
   }
 
   return jsonResponse(c, undefined, data)

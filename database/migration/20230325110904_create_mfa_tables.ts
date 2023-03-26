@@ -57,7 +57,7 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       );
       CREATE INDEX IF NOT EXISTS user_id_created_at_idx on ${dbPrefix}.sessions (user_id, created_at);
       CREATE INDEX IF NOT EXISTS factor_id_created_at_idx on ${dbPrefix}.mfa_factors (user_id, created_at);
-      COMMENT ON TABLE auth.mfa_amr_claims is 'auth: stores authenticator method REFERENCE claims for multi factor authentication';
+      COMMENT ON TABLE ${dbPrefix}.mfa_amr_claims is 'auth: stores authenticator method REFERENCE claims for multi factor authentication';
     `)
   }
 

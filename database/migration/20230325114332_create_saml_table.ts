@@ -90,8 +90,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
 
     await this.client.queryArray(`
       DROP INDEX IF EXISTS ${dbPrefix}.saml_relay_states_sso_provider_id_idx;
-      DROP TABLE IF EXISTS ${dbPrefix}.saml_relay_states;
       DROP INDEX IF EXISTS ${dbPrefix}.saml_relay_states_for_email_idx;
+      DROP TABLE IF EXISTS ${dbPrefix}.saml_relay_states;
     `)
 
     await this.client.queryArray(`
