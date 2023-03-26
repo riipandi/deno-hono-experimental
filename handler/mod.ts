@@ -1,5 +1,6 @@
 export { default as authorizeHandler } from './authorize_handler.ts'
 export { default as callbackHandler } from './callback_handler.ts'
+export { default as healthCheckHandler } from './healthcheck_handler.ts'
 export { default as inviteHandler } from './invite_handler.ts'
 export { default as logoutHandler } from './logout_handler.ts'
 export { default as magiclinkHandler } from './magiclink_handler.ts'

@@ -9,6 +9,7 @@ import { adminRoute, userRoute, verifyRoute } from './routes/mod.ts'
 import {
   authorizeHandler,
   callbackHandler,
+  healthCheckHandler,
   inviteHandler,
   logoutHandler,
   magiclinkHandler,
@@ -42,6 +43,7 @@ app.use('/admin/*', jwt(config.jwt))
 // Register app routes
 app.get('/', (c: Context) => rootHandler(c))
 app.get('/settings', (c: Context) => settingsHandler(c))
+app.get('/health', (c: Context) => healthCheckHandler(c))
 
 // Grouped routes
 app.route('/admin', adminRoute)

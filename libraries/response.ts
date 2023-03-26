@@ -17,5 +17,5 @@ export function throwResponse(
 ): Response {
   const statusCode = typeof status === 'number' ? status : 500
   const errMessage = message ? message : getStatusText(statusCode)
-  return ctx.json({ status, message: errMessage }, statusCode)
+  return ctx.json({ code: statusCode, msg: errMessage }, statusCode)
 }
