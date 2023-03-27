@@ -21,7 +21,7 @@
       <hr class="my-8 h-px border-0 bg-gray-300" />
 
       <div>
-        <p class="mb-4">If you can't click the above button copy and open the following link:</p>
+        <p class="mb-4">If you can't click the above, button copy and open the following link:</p>
         <code class="mt-2 text-sm text-gray-600 break-words">
           https://fastrue.deno.dev/verify?token=123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
         </code>
