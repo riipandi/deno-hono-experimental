@@ -34,19 +34,18 @@ export default async function handler(c: Context) {
     updated_at: '2023-03-26T10:15:37.972313054Z',
   }
 
-  //   const verificationLink = `${config.baseUrl}/verify?token=928ace43-84b0-5b22-85d5-e51e6d32469d`
-  //   const mailContent = `Thank you for signing up for our platform.
+  // const verificationLink = `${config.baseUrl}/verify?token=928ace43-84b0-5b22-85d5-e51e6d32469d`
+  // const mailContent = `Thank you for signing up for our platform.
   // To get started, please verify your email address by clicking the link below: ${verificationLink}`
-
-  //   // await sendMail<MailDataProps>(body.email!, {
-  //   //   subject: 'Verify Your Email',
-  //   //   content: mailContent,
-  //   //   template: 'signup',
-  //   //   payload: {
-  //   //     title: 'Verify Your Email',
-  //   //     verificationLink,
-  //   //   },
-  //   // })
+  // await sendMail<MailDataProps>(body.email!, {
+  //   subject: 'Verify Your Email',
+  //   content: mailContent,
+  //   template: 'signup',
+  //   payload: {
+  //     title: 'Verify Your Email',
+  //     verificationLink,
+  //   },
+  // })
 
   return jsonResponse(c, undefined, { ...result })
 }
