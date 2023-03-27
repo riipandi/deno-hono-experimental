@@ -30,5 +30,5 @@ export function onErrorResponse(err: Error, c: Context) {
 
   return (err instanceof HTTPException)
     ? throwResponse(c, err.status, err.message)
-    : throwResponse(c, 500, `${err.message}`)
+    : throwResponse(c, 400, `${err.message}`)
 }
