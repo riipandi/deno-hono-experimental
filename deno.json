@@ -19,7 +19,7 @@
     },
     "rules": {
       "tags": ["recommended"],
-      "include": ["ban-untagged-todo"],
+      "include": [],
       "exclude": ["no-unused-vars"]
     }
   },

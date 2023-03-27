@@ -18,9 +18,7 @@
       </o:OfficeDocumentSettings>
     </xml>
   </noscript>
-  <style>
-    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
-  </style>
+  <style>td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}</style>
   <![endif]-->
   <title><%= it.title %></title>
   <%~ it.styleTag %>

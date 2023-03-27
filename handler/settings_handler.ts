@@ -1,5 +1,5 @@
 import { Context } from '../deps.ts'
-import { getEnvar } from '../libraries/config_utils.ts'
+import { getEnvar } from '../libraries/helpers.ts'
 import { jsonResponse } from '../libraries/response.ts'
 
 export default function handler(c: Context) {

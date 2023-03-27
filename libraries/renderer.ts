@@ -49,10 +49,5 @@ export async function renderHtml<T>(template: string, data?: T) {
   const tmpl = await Eta.renderFileAsync(`${template}.eta`, { ...data })
   const body = shim(tmpl, { tw })
 
-  // Load HTML content from template
-  return await Eta.renderFileAsync('_layout.eta', {
-    styleTag: getStyleTag(sheet),
-    body,
-    ...data,
-  })
+  return await Eta.renderFileAsync('_layout.eta', { styleTag: getStyleTag(sheet), body, ...data })
 }

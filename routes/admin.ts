@@ -1,5 +1,5 @@
 import { Context, Hono } from '../deps.ts'
-import { getAuthTokenFromHeader, verifyJwt } from '../libraries/jwt_utils.ts'
+import { getAuthTokenFromHeader, verifyJwt } from '../libraries/helpers.ts'
 import { jsonResponse } from '../libraries/response.ts'
 
 const app = new Hono()

@@ -39,7 +39,8 @@ deno task db:reset
 ### Run the app
 
 ```sh
-deno task run
+deno task run          # Start with host timezine
+TZ=UTC deno task run   # Start with UTC timezone
 ```
 
 Open <http://localhost:9999> to view it in the browser.

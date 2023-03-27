@@ -1,6 +1,6 @@
 import config from '../config.ts'
 import { OAuth2Client, OAuth2Tokens } from '../deps.ts'
-import { getEnvar } from '../libraries/config_utils.ts'
+import { getEnvar } from '../libraries/helpers.ts'
 
 export const oauth2Client = new OAuth2Client({
   clientId: getEnvar('FASTRUE_EXTERNAL_GITHUB_CLIENT_ID')!,

@@ -1,6 +1,6 @@
 import { Context } from '../deps.ts'
 import { jsonResponse } from '../libraries/response.ts'
-import { signJwt } from '../libraries/jwt_utils.ts'
+import { signJwt } from '../libraries/helpers.ts'
 
 export default async function handler(c: Context) {
   const access_token = await signJwt({

@@ -16,7 +16,10 @@ await new CliffyCommand()
     default: 'info' as const,
   })
   .action(async () => {
-    console.info(`Starting application server...`)
+    console.info('------------------------------------')
+    console.info(`🚀 Starting application server`)
+    console.log('⌛️ Server timezone:', Intl.DateTimeFormat().resolvedOptions().timeZone)
+    console.info('------------------------------------')
     await serve(app.fetch, { port: config.port })
   })
   // Command for running database migration.

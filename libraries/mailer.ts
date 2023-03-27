@@ -17,14 +17,14 @@ export async function sendMail<T>(to: string, params: {
   template?: string
   payload?: T
 }) {
+  const { subject, content, template, payload } = params
   const from = String(config.smtp.adminEmail)
   // await smtpClient.connectTLS(smtpConfig)
   await smtpClient.connect(smtpConfig)
 
-  if (params.template) {
-    const mailBody = await renderHtml(params.template!, { ...params.payload })
-    const mailData = { subject: params.subject, content: params.content }
-    await smtpClient.send({ from, to, html: mailBody, ...mailData })
+  if (template) {
+    const html = await renderHtml(template!, { ...payload })
+    await smtpClient.send({ from, to, subject, content, html })
   }
 
   await smtpClient.send({ from, to, ...params })

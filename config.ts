@@ -1,6 +1,6 @@
 import 'https://deno.land/x/dotenv@v3.2.2/load.ts'
 import type { ConnectionString, EtaConfig } from './deps.ts'
-import { getEnvar } from './libraries/config_utils.ts'
+import { getEnvar } from './libraries/helpers.ts'
 
 export enum DatabaseDriver {
   Postgres = 'postgres',
