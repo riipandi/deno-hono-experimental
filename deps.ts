@@ -53,6 +53,9 @@ export { z, ZodError, ZodSchema } from 'https://deno.land/x/zod@v3.21.4/mod.ts'
 import * as jose from 'https://deno.land/x/jose@v4.13.1/index.ts'
 import * as oauth2 from 'https://deno.land/x/oauth4webapi@v2.2.0/mod.ts'
 
+export * as Eta from 'https://deno.land/x/eta@v2.0.1/mod.ts'
+export type { EtaConfig } from 'https://deno.land/x/eta@v2.0.1/config.ts'
+
 export type { Tokens as OAuth2Tokens } from 'https://deno.land/x/oauth2_client@v1.0.0/src/types.ts'
 export { OAuth2Client } from 'https://deno.land/x/oauth2_client@v1.0.0/mod.ts'
 export { format as formatDateTime } from 'https://deno.land/std@0.181.0/datetime/mod.ts'

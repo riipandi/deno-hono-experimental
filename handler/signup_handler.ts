@@ -1,8 +1,13 @@
 import { Context } from '../deps.ts'
 import { jsonResponse, throwResponse } from '../libraries/response.ts'
 import { SignUpRequestSchema } from '../schema/requests/index.ts'
+import { sendMail } from '../libraries/mailer.ts'
 
-export default function handler(c: Context) {
+type MailDataProps = {
+  name: string
+}
+
+export default async function handler(c: Context) {
   const body: SignUpRequestSchema = c.req.valid('json')
 
   const userExists = false
@@ -25,6 +30,15 @@ export default function handler(c: Context) {
     'created_at': '2023-03-26T10:15:37.972313054Z',
     'updated_at': '2023-03-26T10:15:37.972313054Z',
   }
+
+  await sendMail<MailDataProps>(body.email!, {
+    subject: 'Test Kirim Email',
+    content: 'This is the email content',
+    template: 'signup',
+    payload: {
+      name: 'Aris Ripandi',
+    },
+  })
 
   return jsonResponse(c, undefined, { ...result })
 }

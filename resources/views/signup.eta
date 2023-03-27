@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Deno with ETA</title>
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+</head>
+
+<body>
+  <div>
+    <h1>Hello, <%= it.name %></h1>
+    <p>Learning Deno is fun!</p>
+  </div>
+</body>
+
+</html>

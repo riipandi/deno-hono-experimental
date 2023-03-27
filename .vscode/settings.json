@@ -14,4 +14,7 @@
     "[json][jsonc]": {
       "editor.defaultFormatter": "denoland.vscode-deno"
     },
+    "[eta]": {
+      "editor.defaultFormatter": "besthyhy.ejs-eta-beautify"
+    },
 }
