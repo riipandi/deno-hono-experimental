@@ -2,10 +2,11 @@ import { Context } from '../deps.ts'
 import { jsonResponse, throwResponse } from '../libraries/response.ts'
 import { SignUpRequestSchema } from '../schema/requests/index.ts'
 import { sendMail } from '../libraries/mailer.ts'
+import config from '../config.ts'
 
 type MailDataProps = {
   title: string
-  name: string
+  verificationLink: string
 }
 
 export default async function handler(c: Context) {
@@ -32,13 +33,14 @@ export default async function handler(c: Context) {
     'updated_at': '2023-03-26T10:15:37.972313054Z',
   }
 
+  const verificationLink = `${config.baseUrl}/verify?token=928ace43-84b0-5b22-85d5-e51e6d32469d`
   await sendMail<MailDataProps>(body.email!, {
     subject: 'Test Kirim Email',
     content: 'This is the email content',
     template: 'signup',
     payload: {
       title: 'User Registration',
-      name: 'Aris Ripandi',
+      verificationLink,
     },
   })
 

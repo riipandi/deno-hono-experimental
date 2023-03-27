@@ -62,8 +62,14 @@ export { format as formatDateTime } from 'https://deno.land/std@0.181.0/datetime
 
 export { urlParse } from 'https://deno.land/x/url_parse@1.1.0/mod.ts'
 
-export { create as twCreate, setup as twSetup, tw } from 'https://esm.sh/twind@0.16.16'
+export {
+  apply as twApply,
+  create as twCreate,
+  setup as twSetup,
+  tw,
+} from 'https://esm.sh/twind@0.16.16'
 export { getStyleTag, shim, virtualSheet } from 'https://esm.sh/twind@0.16.16/shim/server'
+export { css, theme } from 'https://esm.sh/twind@0.16.16/css'
 
 export {
   Command as CliffyCommand,

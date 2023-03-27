@@ -1,5 +1,5 @@
 import config from '../config.ts'
-import { Context, OAuth2Client, OAuth2Tokens } from '../deps.ts'
+import { OAuth2Client, OAuth2Tokens } from '../deps.ts'
 import { getEnvar } from '../libraries/config_utils.ts'
 
 export const oauth2Client = new OAuth2Client({

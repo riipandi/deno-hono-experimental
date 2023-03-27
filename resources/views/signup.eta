@@ -1,34 +1,30 @@
-<div class="font-sans min-h-screen bg-gray-100 p-4">
-  <%~ includeFile("_header.eta") %>
+<%~ includeFile("_header.eta") %>
 
-  <div class="max-w-screen-sm mx-auto bg-white rounded-lg p-8 text-gray-900">
-    <div class="flex flex-col space-y-8">
-      <div>
-        <h1 class="text-2xl font-bold mb-6">Welcome to Fastrue</h1>
-        <p>Hello, <%= it.name %>.</p>
-        <p class="mt-4">
-          Thank you for signing up for our platform.To get started, please verify
-          your email address by clicking the button below:
-        </p>
-      </div>
+<div class="max-w-screen-sm mx-auto bg-white rounded-lg p-8 text-gray-900">
+  <div class="flex flex-col space-y-8">
+    <div>
+      <h1 class="text-xl font-bold mb-6">Welcome to Fastrue</h1>
+      <p>Hello,</p>
+      <p class="mt-4">
+        Thank you for signing up for our platform.To get started, please verify
+        your email address by clicking the button below:
+      </p>
+    </div>
 
-      <div>
-        <a href="#" class="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">
-          Verify Email Address
-        </a>
-      </div>
+    <div>
+      <a href="<%= it.verificationLink %>" class="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">
+        Verify Email Address
+      </a>
+    </div>
 
-      <hr class="my-8 h-px border-0 bg-gray-300" />
+    <hr class="my-8 h-px border-0 bg-gray-300" />
 
-      <div>
-        <p class="mb-4">If you can't click the above, button copy and open the following link:</p>
-        <code class="mt-2 text-sm text-gray-600 break-words">
-          https://fastrue.deno.dev/verify?token=123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-        </code>
-        <p class="mt-4 leading-8">Sincerely,<br />The Fastrue Team</p>
-      </div>
+    <div>
+      <p class="mb-4">If you can't click the above, button copy and open the following link:</p>
+      <code class="mt-2 text-sm text-gray-600 break-words"><%= it.verificationLink %></code>
+      <p class="mt-4 leading-8">Sincerely,<br />The Fastrue Team</p>
     </div>
   </div>
-
-  <%~ includeFile("_footer.eta") %>
 </div>
+
+<%~ includeFile("_footer.eta") %>

@@ -1,9 +1,29 @@
 /** @jsxImportSource "https://esm.sh/preact@10.13.1/jsx-runtime" */
-import { Eta, getStyleTag, shim, twCreate, twSetup, virtualSheet } from '../deps.ts'
+import {
+  css,
+  Eta,
+  getStyleTag,
+  shim,
+  theme,
+  twApply as apply,
+  twCreate,
+  twSetup,
+  virtualSheet,
+} from '../deps.ts'
 import config from '../config.ts'
 
 const sheet = virtualSheet()
+
+const globalStyles = css({
+  ':global': {
+    body: apply`font-sans min-h-screen bg-gray-100 p-4`,
+  },
+})
+
 const twConfig = {
+  hash: true,
+  // deno-lint-ignore no-explicit-any
+  preflight: (preflight: any) => css(preflight, globalStyles),
   theme: {
     fontFamily: {
       sans: ['Helvetica', 'sans-serif'],
