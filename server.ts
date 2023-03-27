@@ -1,11 +1,12 @@
 import { Context, Hono, HTTPException, serve } from './deps.ts'
 import { cors, etag, jwt, prettyJSON } from './deps.ts'
+import { ZodHttpException, zValidator } from './libraries/zod-validator.ts'
 import config from './config.ts'
 
-import { throwResponse } from './libraries/response.ts'
+import { onErrorResponse, throwResponse } from './libraries/response.ts'
 import { logger } from './libraries/logger.ts'
 
-import { adminRoute, userRoute, verifyRoute } from './routes/mod.ts'
+import { adminRoute, userRoute } from './routes/mod.ts'
 import {
   authorizeHandler,
   callbackHandler,
@@ -20,22 +21,19 @@ import {
   settingsHandler,
   signupHandler,
   tokenHandler,
+  verificationhandler,
 } from './handler/mod.ts'
+import { signupRequestSchema } from './schema/requests/index.ts'
 
 const app = new Hono()
 const version = '0.1.0'
 
 // Register custom error response
 app.notFound((c) => throwResponse(c, 404, 'resource not found'))
-app.onError((err, c) => {
-  return (err instanceof HTTPException)
-    ? throwResponse(c, err.status, err.message)
-    : throwResponse(c, 500, `${err.message}`)
-})
+app.onError((err, c) => onErrorResponse(err, c))
 
 // Register global middlewares
-app.use('*', logger(), etag(), cors(config.cors))
-app.use('*', prettyJSON({ space: 4 }))
+app.use('*', logger(), etag(), cors(config.cors), prettyJSON({ space: 4 }))
 
 // Route level middlewares
 app.use('/admin/*', jwt(config.jwt))
@@ -47,12 +45,18 @@ app.get('/health', (c: Context) => healthCheckHandler(c))
 
 // Grouped routes
 app.route('/admin', adminRoute)
-app.route('/verify', verifyRoute)
 app.route('/user', userRoute)
 
+// Chained route for verification
+app.get('/verify', (c) => verificationhandler(c)).post((c) => verificationhandler(c))
+
 // Authentication routes
-app.post('/signup', (c: Context) => signupHandler(c))
-app.post('/invite', (c: Context) => inviteHandler(c))
+app.post('/signup', zValidator('json', signupRequestSchema), (c: Context) => signupHandler(c))
+app.post('/invite', jwt(config.jwt), (c) => inviteHandler(c))
+// app.post('/invite', bearerAuth({ token: '123', prefix: 'Bearer' }), (c) => {
+//   return c.json({ message: 'Created post!' }, 201)
+// })
+
 app.post('/otp', (c: Context) => otpHandler(c))
 app.post('/magiclink', (c: Context) => magiclinkHandler(c))
 app.post('/recover', (c: Context) => recoverHandler(c))

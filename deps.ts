@@ -6,10 +6,24 @@ export {
 
 export type { Context } from 'https://deno.land/x/hono@v3.1.2/mod.ts'
 export { HTTPException } from 'https://deno.land/x/hono@v3.1.2/http-exception.ts'
+export {
+  type ValidationFunction,
+  validator,
+} from 'https://deno.land/x/hono@v3.1.2/validator/index.ts'
 export { Hono } from 'https://deno.land/x/hono@v3.1.2/mod.ts'
-export { cors, etag, jwt, prettyJSON } from 'https://deno.land/x/hono@v3.1.2/middleware.ts'
+export {
+  bearerAuth,
+  cors,
+  etag,
+  jwt,
+  prettyJSON,
+} from 'https://deno.land/x/hono@v3.1.2/middleware.ts'
 
-export type { MiddlewareHandler } from 'https://deno.land/x/hono@v3.1.2/types.ts'
+export type {
+  Env,
+  MiddlewareHandler,
+  ValidationTargets,
+} from 'https://deno.land/x/hono@v3.1.2/types.ts'
 export { getPathFromURL } from 'https://deno.land/x/hono@v3.1.2/utils/url.ts'
 export { Jwt } from 'https://deno.land/x/hono@v3.1.2/utils/jwt/index.ts'
 export { AlgorithmTypes as JWTAlgorithmTypes } from 'https://deno.land/x/hono@v3.1.2/utils/jwt/types.ts'
@@ -34,7 +48,7 @@ export type {
   ConnectConfigWithAuthentication,
 } from 'https://deno.land/x/smtp@v0.7.0/mod.ts'
 
-export { z } from 'https://deno.land/x/zod@v3.21.4/mod.ts'
+export { z, ZodError, ZodSchema } from 'https://deno.land/x/zod@v3.21.4/mod.ts'
 
 import * as jose from 'https://deno.land/x/jose@v4.13.1/index.ts'
 import * as oauth2 from 'https://deno.land/x/oauth4webapi@v2.2.0/mod.ts'

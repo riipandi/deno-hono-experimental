@@ -1,4 +1,6 @@
 import { Context, getStatusText, StatusCode } from '../deps.ts'
+import { HTTPException } from '../deps.ts'
+import { ZodHttpException } from './zod-validator.ts'
 
 export function jsonResponse<T>(
   ctx: Context,
@@ -19,4 +21,14 @@ export function throwResponse(
   const statusCode = typeof status === 'number' ? status : 500
   const errMessage = message ? message : getStatusText(statusCode)
   return ctx.json({ code: statusCode, message: errMessage }, statusCode)
+}
+
+export function onErrorResponse(err: Error, c: Context) {
+  if (err instanceof ZodHttpException) {
+    return throwResponse(c, err.code, err.message)
+  }
+
+  return (err instanceof HTTPException)
+    ? throwResponse(c, err.status, err.message)
+    : throwResponse(c, 500, `${err.message}`)
 }
