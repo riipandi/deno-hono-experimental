@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html>
+<%~ includeFile("_header.eta") %>
 
-<head>
-  <title>Deno with ETA</title>
-  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-</head>
+<div>
+  <h1 class="text-3xl text-blue-500">Hello, <%= it.name %></h1>
+  <p>Learning Deno is fun!</p>
+</div>
 
-<body>
-  <div>
-    <h1>Hello, <%= it.name %></h1>
-    <p>Learning Deno is fun!</p>
-  </div>
-</body>
-
-</html>
+<%~ includeFile("_footer.eta") %>

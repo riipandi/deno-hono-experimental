@@ -4,6 +4,7 @@ import { SignUpRequestSchema } from '../schema/requests/index.ts'
 import { sendMail } from '../libraries/mailer.ts'
 
 type MailDataProps = {
+  title: string
   name: string
 }
 
@@ -36,6 +37,7 @@ export default async function handler(c: Context) {
     content: 'This is the email content',
     template: 'signup',
     payload: {
+      title: 'User Registration',
       name: 'Aris Ripandi',
     },
   })
