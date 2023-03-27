@@ -20,9 +20,9 @@
     <hr class="my-8 h-px border-0 bg-gray-300" />
 
     <div>
-      <p class="mb-4">If you can't click the above, button copy and open the following link:</p>
-      <code class="mt-2 text-sm text-gray-600 break-words"><%= it.verificationLink %></code>
-      <p class="mt-4 leading-8">Sincerely,<br />The Fastrue Team</p>
+      <p class="mb-2">If you can't click the above, button copy and open the following link:</p>
+      <code class="text-sm text-gray-600 break-words"><%= it.verificationLink %></code>
+      <p class="mt-8 leading-8">Sincerely,<br />The Fastrue Team</p>
     </div>
   </div>
 </div>
