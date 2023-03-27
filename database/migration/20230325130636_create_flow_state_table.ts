@@ -7,13 +7,7 @@ const { schema: dbPrefix } = config.database
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      do $$ begin
-        CREATE TYPE code_challenge_method AS ENUM('s256', 'plain');
-      exception
-        WHEN duplicate_object THEN null;
-      end $$;
-    `)
-    await this.client.queryArray(`
+      CREATE TYPE code_challenge_method AS ENUM('s256', 'plain');
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.flow_state(
         id uuid primary key,
         user_id uuid null,

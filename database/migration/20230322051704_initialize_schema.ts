@@ -1,26 +1,31 @@
-import { ClientPostgreSQL, Info } from '../../deps.ts'
+import { ClientPostgreSQL, Info, urlParse } from '../../deps.ts'
 import { ExtendedMigration } from '../abstract.ts'
-import config from '../../config.ts'
+import config, { DatabaseDriver } from '../../config.ts'
 
-const { schema: dbPrefix } = config.database
+const { schema: dbPrefix, driver } = config.database
+const { username, password } = urlParse(config.database.url)
 
 export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`
-      -- CREATE USER fastrue_admin LOGIN CREATEROLE CREATEDB REPLICATION BYPASSRLS;
-      CREATE USER fastrue_auth_admin NOINHERIT CREATEROLE LOGIN NOREPLICATION PASSWORD 'root';
-      CREATE SCHEMA IF NOT EXISTS ${dbPrefix} AUTHORIZATION fastrue_auth_admin;
-      GRANT CREATE ON DATABASE postgres TO fastrue_auth_admin;
-      ALTER USER fastrue_auth_admin SET search_path = '${dbPrefix}';
-    `)
+    await this.client.queryArray(
+      driver === DatabaseDriver.Cockroach
+        ? `CREATE SCHEMA IF NOT EXISTS ${dbPrefix} AUTHORIZATION ${username};`
+        : `
+        CREATE USER fastrue_auth_admin NOINHERIT CREATEROLE LOGIN NOREPLICATION PASSWORD '${password}';
+        CREATE SCHEMA IF NOT EXISTS ${dbPrefix} AUTHORIZATION fastrue_auth_admin;
+        GRANT CREATE ON DATABASE postgres TO fastrue_auth_admin;
+        ALTER USER fastrue_auth_admin SET search_path = '${dbPrefix}';
+      `,
+    )
   }
 
   async down(_ctx: Info): Promise<void> {
-    await this.client.queryArray(`
+    await this.client.queryArray(
+      driver === DatabaseDriver.Cockroach ? `DROP SCHEMA IF EXISTS ${dbPrefix};` : `
       DROP SCHEMA IF EXISTS ${dbPrefix};
       DROP OWNED BY fastrue_auth_admin;
       DROP ROLE IF EXISTS fastrue_auth_admin;
-      --- DROP USER IF EXISTS fastrue_admin;
-    `)
+    `,
+    )
   }
 }

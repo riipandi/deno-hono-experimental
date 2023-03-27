@@ -1,6 +1,6 @@
-import { Context, Hono, HTTPException, serve } from './deps.ts'
+import { Context, Hono, serve } from './deps.ts'
 import { cors, etag, jwt, prettyJSON } from './deps.ts'
-import { ZodHttpException, zValidator } from './libraries/zod-validator.ts'
+import { zValidator } from './libraries/zod-validator.ts'
 import config from './config.ts'
 
 import { onErrorResponse, throwResponse } from './libraries/response.ts'

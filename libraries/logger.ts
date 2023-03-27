@@ -1,4 +1,4 @@
-import { Context, getPathFromURL, type MiddlewareHandler, StatusCode } from '../deps.ts'
+import { getPathFromURL, type MiddlewareHandler, StatusCode } from '../deps.ts'
 import { formatDateTime } from '../deps.ts'
 
 enum LogPrefix {

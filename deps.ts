@@ -57,6 +57,8 @@ export type { Tokens as OAuth2Tokens } from 'https://deno.land/x/oauth2_client@v
 export { OAuth2Client } from 'https://deno.land/x/oauth2_client@v1.0.0/mod.ts'
 export { format as formatDateTime } from 'https://deno.land/std@0.181.0/datetime/mod.ts'
 
+export { urlParse } from 'https://deno.land/x/url_parse@1.1.0/mod.ts'
+
 export {
   Command as CliffyCommand,
   EnumType as CliffyEnumType,
