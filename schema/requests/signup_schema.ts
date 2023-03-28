@@ -1,7 +1,7 @@
 import { z } from '../../deps.ts'
 import { ZodHttpException } from '../../libraries/zod-validator.ts'
 
-const schema = z.object({
+const requestSchema = z.object({
   email: z.string().email().optional(),
   phone: z.string().optional(),
   password: z.string().optional(),
@@ -16,6 +16,27 @@ const schema = z.object({
   return true
 })
 
-export type SignUpRequestSchema = z.TypeOf<typeof schema>
+const responseSchema = z.object({
+  id: z.string().uuid({ message: 'Invalid UUID' }),
+  uid: z.string(),
+  aud: z.string(),
+  role: z.string(),
+  email: z.nullable(z.string()),
+  phone: z.nullable(z.string().or(z.number())),
+  app_metadata: z.object({
+    provider: z.enum(['email', 'phone']),
+    providers: z.string().array(),
+  }),
+  user_metadata: z.object({}),
+  identities: z.string().array(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+  confirmation_sent_at: z.string().datetime(),
+  recovery_sent_at: z.string().datetime(),
+})
 
-export { schema as signupRequestSchema }
+type SignUpRequestSchema = z.TypeOf<typeof requestSchema>
+type SignUpResponseSchema = z.TypeOf<typeof responseSchema>
+
+export type { SignUpRequestSchema, SignUpResponseSchema }
+export { requestSchema as signupRequestSchema, responseSchema as signupResponseSchema }
