@@ -56,6 +56,7 @@ const appConfig = {
     maxFrequency: getEnvar('FASTRUE_SMTP_MAX_FREQUENCY'),
     adminEmail: getEnvar('FASTRUE_SMTP_ADMIN_EMAIL'),
     senderName: getEnvar('FASTRUE_SMTP_SENDER_NAME'),
+    useTLS: false,
   },
   cors: corsConfig,
   jwt: jwtConfig,

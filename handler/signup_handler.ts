@@ -1,15 +1,10 @@
 import { Context } from '../deps.ts'
 import { jsonResponse, throwResponse } from '../libraries/response.ts'
 import { SignUpRequestSchema } from '../schema/requests/index.ts'
-// import { sendMail } from '../libraries/mailer.ts'
-// import config from '../config.ts'
+import { sendMail } from '../libraries/mailer.ts'
+import config from '../config.ts'
 import { generateUid, generateUUID } from '../libraries/helpers.ts'
 import type { SignUpResponseSchema } from '../schema/requests/index.ts'
-
-// type MailDataProps = {
-//   title: string
-//   verificationLink: string
-// }
 
 export default async function handler(c: Context) {
   const body: SignUpRequestSchema = c.req.valid('json')
@@ -34,18 +29,21 @@ export default async function handler(c: Context) {
     recovery_sent_at: '2022-06-19T22:50:53.378784Z',
   }
 
-  // const verificationLink = `${config.baseUrl}/verify?token=928ace43-84b0-5b22-85d5-e51e6d32469d`
-  // const mailContent = `Thank you for signing up for our platform.
-  // To get started, please verify your email address by clicking the link below: ${verificationLink}`
-  // await sendMail<MailDataProps>(body.email!, {
-  //   subject: 'Verify Your Email',
-  //   content: mailContent,
-  //   template: 'signup',
-  //   payload: {
-  //     title: 'Verify Your Email',
-  //     verificationLink,
-  //   },
-  // })
+  const verificationLink = `${config.baseUrl}/verify?token=928ace43-84b0-5b22-85d5-e51e6d32469d`
+  const mailContent = `Thank you for signing up for our platform.
+  To get started, please verify your email address by clicking the link below: ${verificationLink}`
+  await sendMail<{
+    title: string
+    verificationLink: string
+  }>(body.email!, {
+    subject: 'Verify Your Email',
+    content: mailContent,
+    template: 'signup',
+    payload: {
+      title: 'Verify Your Email',
+      verificationLink,
+    },
+  })
 
   return jsonResponse(c, undefined, { ...result })
 }
