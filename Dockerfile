@@ -17,11 +17,12 @@ USER deno
 WORKDIR /app
 
 COPY deps.ts .
+COPY entrypoint.sh .
 RUN deno cache deps.ts
 ADD . .
 RUN deno cache fastrue.ts
 
 EXPOSE $PORT
 
-# CMD [ "run", "--allow-read", "--allow-net", "--allow-env", "fastrue.ts" ]
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "run", "--allow-read", "--allow-net", "--allow-env", "fastrue.ts" ]
+# ENTRYPOINT [ "./entrypoint.sh" ]
