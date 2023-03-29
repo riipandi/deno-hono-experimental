@@ -58,6 +58,10 @@ deno task compile
 curl -H 'Authorization: Bearer secret' http://localhost:9999/token
 ```
 
+## Deployment
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/mlDOsy?referralCode=aris)
+
 ## Further help
 
 To learn more about Deno and Hono, check out the [Deno Documentation](https://deno.land/) and [Hono Documentation](https://hono.dev/).
