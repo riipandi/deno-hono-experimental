@@ -1,4 +1,4 @@
-import { Context, Jwt, JWTAlgorithmTypes, uuid } from '../deps.ts'
+import { bcrypt, Context, Jwt, JWTAlgorithmTypes, uuid } from '../deps.ts'
 import config from '../config.ts'
 
 export const DEFAULT_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -70,4 +70,13 @@ export async function generateUUID(identifier?: string): Promise<string> {
   const data = new TextEncoder().encode(identifier || randomStr({ length: 8 }))
   const namespace = config.instanceId.toString()
   return await uuid.v5.generate(namespace, data)
+}
+
+export async function generatePassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt(8)
+  return await bcrypt.hash(password, salt)
+}
+
+export async function validatePassword(plain: string, hash: string): Promise<boolean> {
+  return await bcrypt.compare(plain, hash)
 }

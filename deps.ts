@@ -63,6 +63,7 @@ export type { EtaConfig } from 'https://deno.land/x/eta@v2.0.1/config.ts'
 export type { Tokens as OAuth2Tokens } from 'https://deno.land/x/oauth2_client@v1.0.0/src/types.ts'
 export { OAuth2Client } from 'https://deno.land/x/oauth2_client@v1.0.0/mod.ts'
 export { urlParse } from 'https://deno.land/x/url_parse@1.1.0/mod.ts'
+export * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts'
 
 export {
   apply as twApply,

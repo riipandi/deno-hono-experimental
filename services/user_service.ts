@@ -1,5 +1,6 @@
 import { sql } from '../database/mod.ts'
-import { generateUid, generateUUID } from '../libraries/helpers.ts'
+import { bcrypt } from '../deps.ts'
+import { generatePassword, generateUid, generateUUID } from '../libraries/helpers.ts'
 
 export async function findUserById(id: string) {
   const result = await sql`select * from auth.users where id = '${id}'`
@@ -21,16 +22,18 @@ export async function findUserByPhone(phone: string) {
   return result[0]
 }
 
-export async function insertUser({ email }: { email: string }) {
+export async function insertUser({ email, password }: { email: string; password: string }) {
   const id = await generateUUID()
   const uid = generateUid({ prefix: 'user_' })
+  const confirmation_token = await generateUUID()
+  const encrypted_password = await generatePassword(password)
 
   const users = await sql`
     insert into auth.users
-      (id, uid, email, aud, role)
+      (id, uid, email, aud, role, confirmation_token, encrypted_password)
     values
-      (${id}, ${uid}, ${email}, 'authenticated', 'authenticated')
-    returning id, uid, email, phone, aud, role, created_at, updated_at, confirmation_sent_at, recovery_sent_at
+      (${id}, ${uid}, ${email}, 'authenticated', 'authenticated', ${confirmation_token}, ${encrypted_password})
+    returning id, uid, email, phone, aud, role, confirmation_token, created_at, updated_at, confirmation_sent_at, recovery_sent_at
   `
 
   return users[0]

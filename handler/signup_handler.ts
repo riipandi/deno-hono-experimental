@@ -19,7 +19,7 @@ export default async function handler(c: Context) {
   if (userExist) return throwResponse(c, 400, 'User already registered')
 
   // If user doesn't exist then create one
-  const user = await insertUser({ email: body.email! })
+  const user = await insertUser({ email: body.email!, password: body.password! })
   const result: SignUpResponseSchema = {
     id: user.id,
     uid: user.uid,
@@ -36,7 +36,7 @@ export default async function handler(c: Context) {
     recovery_sent_at: user.recovery_sent_at,
   }
 
-  const verificationLink = `${config.baseUrl}/verify?token=928ace43-84b0-5b22-85d5-e51e6d32469d`
+  const verificationLink = `${config.baseUrl}/verify?token=${user.confirmation_token}`
   const mailContent = `Thank you for signing up for our platform.
 To get started, please verify your email address by clicking the link below: ${verificationLink}`
 
