@@ -31,8 +31,8 @@ const responseSchema = z.object({
   identities: z.string().array(),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
-  confirmation_sent_at: z.string().datetime(),
-  recovery_sent_at: z.string().datetime(),
+  confirmation_sent_at: z.string().datetime().optional(),
+  recovery_sent_at: z.string().datetime().optional(),
 })
 
 type SignUpRequestSchema = z.TypeOf<typeof requestSchema>

@@ -1,6 +1,8 @@
-import { sendMail } from '../libraries/mailer.ts'
-import { sql } from '../database/mod.ts'
-import config from '../config.ts'
+import { sendMail } from '../../libraries/mailer.ts'
+import { sql } from '../../database/mod.ts'
+import config from '../../config.ts'
+
+const { schema: dbPrefix } = config.database
 
 export async function sendUserConfirmationEmail(email: string, token: string) {
   const verificationLink = `${config.baseUrl}/verify?token=${token}`
@@ -19,6 +21,8 @@ To get started, please verify your email address by clicking the link below: ${v
       },
     },
   ).then(async () => {
-    await sql`update auth.users set confirmation_sent_at = (select now()) where email= '${email}'`
+    const table = `${dbPrefix}.users`
+    const user = { email, confirmation_sent_at: new Date() }
+    await sql`update ${sql(table)} set ${sql(user, 'confirmation_sent_at')} where email = ${email}`
   }).catch((error) => console.error('Failed to send confirmation email:', error.message))
 }

@@ -8,13 +8,13 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
       CREATE OR REPLACE FUNCTION ${dbPrefix}.jwt()
-      returns jsonb
+      returns JSONB
       language sql stable
       as $$
         select coalesce(
           nullif(current_setting('request.jwt.claim', true), ''),
           nullif(current_setting('request.jwt.claims', true), '')
-        )::jsonb
+        )::JSONB
       $$;
     `)
   }

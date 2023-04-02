@@ -23,15 +23,13 @@ export async function signJwt(
   const expires = params?.expires_in || '2h'
   const { hostname } = urlParse(config.baseUrl)
 
-  const token = await new jose.SignJWT(params.payload)
-    .setProtectedHeader({ alg: JWTAlgorithmTypes.HS256 })
+  return await new jose.SignJWT(params.payload)
+    .setProtectedHeader({ typ: 'JWT', alg: JWTAlgorithmTypes.HS256 })
     .setIssuer(hostname)
     .setAudience(params.aud)
     .setExpirationTime(expires)
     .setIssuedAt()
     .sign(secret)
-
-  return token
 }
 
 export async function verifyJwt(token: string): Promise<boolean> {
@@ -98,7 +96,7 @@ export async function generateUUID(identifier?: string): Promise<string> {
   return await uuid.v5.generate(crypto.randomUUID(), data)
 }
 
-export async function generatePassword(password: string): Promise<string> {
+export async function encryptPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(8)
   return await bcrypt.hash(password, salt)
 }

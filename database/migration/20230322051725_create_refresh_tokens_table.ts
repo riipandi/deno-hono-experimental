@@ -8,17 +8,17 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.refresh_tokens (
-        id uuid NOT NULL,
-        parent varchar(255) NULL,
-        "token" varchar(255) NULL,
-        user_id varchar(255) NULL,
-        revoked bool NULL,
-        session_id uuid NULL,
-        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        id UUID NOT NULL,
+        parent VARCHAR(255) NULL,
+        "token" VARCHAR(255) NULL,
+        user_id VARCHAR(255) NULL,
+        revoked BOOL NULL,
+        session_id UUID NULL,
+        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
         CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id),
         CONSTRAINT refresh_tokens_token_unique UNIQUE (token),
-        CONSTRAINT refresh_tokens_session_id_fkey foreign key (session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade
+        CONSTRAINT refresh_tokens_session_id_fkey FOREIGN KEY (session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade
       );
 
       CREATE INDEX IF NOT EXISTS refresh_tokens_token_idx ON ${dbPrefix}.refresh_tokens USING btree (token);

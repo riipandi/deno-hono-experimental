@@ -13,16 +13,16 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
 
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.mfa_factors(
-        id uuid not null,
-        user_id uuid not null,
-        friendly_name text null,
-        factor_type factor_type not null,
-        status factor_status not null,
-        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
-        secret text null,
-        CONSTRAINT mfa_factors_pkey primary key(id),
-        CONSTRAINT mfa_factors_user_id_fkey foreign key (user_id) references ${dbPrefix}.users(id) on delete cascade
+        id UUID NOT NULL,
+        user_id UUID NOT NULL,
+        friendly_name TEXT NULL,
+        factor_type factor_type NOT NULL,
+        status factor_status NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        secret TEXT NULL,
+        CONSTRAINT mfa_factors_pkey PRIMARY KEY(id),
+        CONSTRAINT mfa_factors_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) on delete cascade
       );
     `)
 
@@ -33,27 +33,27 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
 
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.mfa_challenges(
-        id uuid not null,
-        factor_id uuid not null,
-        created_at timestamptz not null,
-        verified_at timestamptz  null,
-        ip_address  inet not null,
-        CONSTRAINT mfa_challenges_pkey primary key (id),
-        CONSTRAINT mfa_challenges_auth_factor_id_fkey foreign key (factor_id) references ${dbPrefix}.mfa_factors(id) on delete cascade
+        id UUID NOT NULL,
+        factor_id UUID NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL,
+        verified_at TIMESTAMPTZ  NULL,
+        ip_address  inet NOT NULL,
+        CONSTRAINT mfa_challenges_pkey PRIMARY KEY (id),
+        CONSTRAINT mfa_challenges_auth_factor_id_fkey FOREIGN KEY (factor_id) REFERENCES ${dbPrefix}.mfa_factors(id) on delete cascade
       );
       COMMENT ON TABLE ${dbPrefix}.mfa_challenges is 'auth: stores metadata about challenge requests made';
     `)
 
     await this.client.queryArray(`
       create table if not exists ${dbPrefix}.mfa_amr_claims(
-        id uuid not null,
-        session_id uuid not null,
-        created_at timestamptz not null,
-        updated_at timestamptz not null,
-        authentication_method text not null,
-        CONSTRAINT amr_id_pk primary key(id),
+        id UUID NOT NULL,
+        session_id UUID NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL,
+        authentication_method TEXT NOT NULL,
+        CONSTRAINT amr_id_pk PRIMARY KEY(id),
         CONSTRAINT mfa_amr_claims_session_id_authentication_method_pkey unique(session_id, authentication_method),
-        CONSTRAINT mfa_amr_claims_session_id_fkey foreign key(session_id) references ${dbPrefix}.sessions(id) on delete cascade
+        CONSTRAINT mfa_amr_claims_session_id_fkey FOREIGN KEY(session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade
       );
       CREATE INDEX IF NOT EXISTS user_id_created_at_idx on ${dbPrefix}.sessions (user_id, created_at);
       CREATE INDEX IF NOT EXISTS factor_id_created_at_idx on ${dbPrefix}.mfa_factors (user_id, created_at);

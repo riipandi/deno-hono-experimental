@@ -16,5 +16,5 @@
     },
     "[eta]": {
       "editor.defaultFormatter": "besthyhy.ejs-eta-beautify"
-    },
+    }
 }

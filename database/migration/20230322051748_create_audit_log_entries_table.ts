@@ -8,10 +8,10 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
       CREATE TABLE ${dbPrefix}.audit_log_entries (
-        id uuid NOT NULL,
+        id UUID NOT NULL,
         payload json NULL,
         ip_address VARCHAR(64) NOT NULL DEFAULT '',
-        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
         CONSTRAINT audit_log_entries_pkey PRIMARY KEY (id)
       );
       COMMENT ON TABLE ${dbPrefix}.audit_log_entries is 'Auth: Audit trail for user actions.';

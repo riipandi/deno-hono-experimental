@@ -9,15 +9,15 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     await this.client.queryArray(`
       CREATE TYPE aal_level as ENUM('aal1', 'aal2', 'aal3');
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.sessions (
-        id uuid not null,
-        user_id uuid not null,
-        factor_id uuid null,
-        aal aal_level null,
-        not_after timestamptz,
-        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
-        CONSTRAINT sessions_pkey primary key (id),
-        CONSTRAINT sessions_user_id_fkey foreign key (user_id) references ${dbPrefix}.users(id) ON DELETE CASCADE
+        id UUID NOT NULL,
+        user_id UUID NOT NULL,
+        factor_id UUID NULL,
+        aal aal_level NULL,
+        not_after TIMESTAMPTZ,
+        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        CONSTRAINT sessions_pkey PRIMARY KEY (id),
+        CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) ON DELETE CASCADE
       );
     `)
 
