@@ -8,8 +8,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.users (
-        instance_id uuid NULL,
         id uuid NOT NULL UNIQUE,
+        uid varchar(25) NOT NULL UNIQUE,
+        instance_id uuid NULL,
         aud varchar(255) NULL,
         "role" varchar(255) NULL,
         email varchar(255) NULL UNIQUE,
@@ -37,8 +38,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         raw_user_meta_data jsonb NULL,
         is_super_admin bool NULL,
         is_sso_user boolean NOT NULL default false,
-        created_at timestamptz NULL,
-        updated_at timestamptz NULL,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         deleted_at timestamptz NULL,
         confirmed_at timestamptz GENERATED ALWAYS AS (LEAST (${dbPrefix}.users.email_confirmed_at, ${dbPrefix}.users.phone_confirmed_at)) STORED,
         banned_until timestamptz NULL,

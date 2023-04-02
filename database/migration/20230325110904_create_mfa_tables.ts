@@ -18,8 +18,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         friendly_name text null,
         factor_type factor_type not null,
         status factor_status not null,
-        created_at timestamptz not null,
-        updated_at timestamptz not null,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         secret text null,
         CONSTRAINT mfa_factors_pkey primary key(id),
         CONSTRAINT mfa_factors_user_id_fkey foreign key (user_id) references ${dbPrefix}.users(id) on delete cascade

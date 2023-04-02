@@ -15,8 +15,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
           provider text NOT NULL,
           email text GENERATED ALWAYS AS (lower(identity_data->>'email')) STORED,
           last_sign_in_at timestamptz NULL,
-          created_at timestamptz NULL,
-          updated_at timestamptz NULL,
+          created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+          updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
           CONSTRAINT identities_pkey PRIMARY KEY (provider, id),
           CONSTRAINT identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) ON DELETE CASCADE
       );

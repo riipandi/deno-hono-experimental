@@ -11,8 +11,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         id uuid NOT NULL,
         uuid uuid NULL,
         raw_base_config text NULL,
-        created_at timestamptz NULL,
-        updated_at timestamptz NULL,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         CONSTRAINT instances_pkey PRIMARY KEY (id)
       );
       COMMENT ON TABLE ${dbPrefix}.instances is 'Auth: Manages users across multiple sites.';

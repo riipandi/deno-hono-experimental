@@ -8,15 +8,15 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   async up(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.refresh_tokens (
-        instance_id uuid NULL,
         id uuid NOT NULL,
+        instance_id uuid NULL,
         parent varchar(255) NULL,
         "token" varchar(255) NULL,
         user_id varchar(255) NULL,
         revoked bool NULL,
         session_id uuid NULL,
-        created_at timestamptz NULL,
-        updated_at timestamptz NULL,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id),
         CONSTRAINT refresh_tokens_token_unique UNIQUE (token),
         CONSTRAINT refresh_tokens_session_id_fkey foreign key (session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade

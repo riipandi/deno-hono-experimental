@@ -67,9 +67,7 @@ export function generateUid(opts?: { length?: number; prefix?: string }): string
 }
 
 export async function generateUUID(identifier?: string): Promise<string> {
-  // TODO replace with a unique identifier
-  const namespace = uuid.v1.generate().toString()
-  const stamp = randomStr({ length: 8 })
-  const data = new TextEncoder().encode(identifier || stamp)
+  const data = new TextEncoder().encode(identifier || randomStr({ length: 8 }))
+  const namespace = config.instanceId.toString()
   return await uuid.v5.generate(namespace, data)
 }

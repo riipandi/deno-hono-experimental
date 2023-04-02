@@ -17,8 +17,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         provider_type text not null,
         provider_access_token text null,
         provider_refresh_token text null,
-        created_at timestamptz null,
-        updated_at timestamptz null
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL
       );
       CREATE INDEX idx_auth_code ON ${dbPrefix}.flow_state(auth_code);
       COMMENT ON TABLE ${dbPrefix}.flow_state is 'stores metadata for oauth provider logins';

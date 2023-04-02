@@ -34,6 +34,7 @@ export { AlgorithmTypes as JWTAlgorithmTypes } from 'https://deno.land/x/hono@v3
 export { Pool } from 'https://deno.land/x/postgres@v0.17.0/pool.ts'
 export { Client } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
 export type { ClientOptions, ConnectionString } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
+export { default as postgres } from 'https://deno.land/x/postgresjs@v3.3.4/mod.js'
 
 export {
   AbstractClient,

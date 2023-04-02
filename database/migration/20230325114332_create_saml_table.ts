@@ -10,8 +10,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.sso_providers (
         id uuid not null,
         resource_id text null,
-        created_at timestamptz null,
-        updated_at timestamptz null,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         PRIMARY KEY (id),
         CONSTRAINT "resource_id not empty" CHECK (resource_id = null or char_length(resource_id) > 0)
       );
