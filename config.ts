@@ -36,7 +36,7 @@ const jwtConfig: {
 }
 
 const etaConfig: Partial<EtaConfig> = {
-  views: Deno.cwd() + '/resources/views',
+  views: Deno.cwd() + '/views',
 }
 
 const appConfig = {

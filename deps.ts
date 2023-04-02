@@ -4,7 +4,7 @@
  * --------------------------------------------------------------------------------------------------
  */
 export { serve } from 'https://deno.land/std@0.182.0/http/server.ts'
-export * as path from 'https://deno.land/std@0.182.0/path/mod.ts'
+// export * as path from 'https://deno.land/std@0.182.0/path/mod.ts'
 export * as uuid from 'https://deno.land/std@0.182.0/uuid/mod.ts'
 export { format as formatDateTime } from 'https://deno.land/std@0.182.0/datetime/mod.ts'
 

@@ -1,12 +1,14 @@
-import { ClientPostgreSQL, NessieConfig, path } from './deps.ts'
+import { ClientPostgreSQL, NessieConfig } from './deps.ts'
 import config from './config.ts'
+
+const basePath = Deno.cwd() + '/database'
 
 export const nessieConfig: NessieConfig = {
   client: new ClientPostgreSQL(config.database.url),
-  migrationFolders: [path.resolve('database/migration')],
-  seedFolders: [path.resolve('database/seeder')],
-  migrationTemplate: path.resolve('database/template/migration_template.ts'),
-  seedTemplate: path.resolve('database/template/seed_template.ts'),
+  migrationFolders: [`${basePath}/migration`],
+  seedFolders: [`${basePath}/seeder`],
+  migrationTemplate: `${basePath}/template/migration_template.ts`,
+  seedTemplate: `${basePath}/template/seed_template.ts`,
   debug: false,
 }
 
