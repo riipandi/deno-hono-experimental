@@ -42,10 +42,9 @@ export function decodeJwt(token: string) {
 
 export function getAuthTokenFromHeader(c: Context): string {
   const authHeader = c.req.header('Authorization') as string
-  if (!authHeader.substring('Bearer '.length)) {
-    return 'invalid token'
-  }
-  return authHeader.substring('Bearer '.length)
+  return (!authHeader || !authHeader.substring('Bearer '.length))
+    ? 'authorization token required'
+    : authHeader.substring('Bearer '.length)
 }
 
 /**

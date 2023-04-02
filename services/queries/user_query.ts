@@ -22,7 +22,42 @@ export async function findUserById(id: string) {
 }
 
 export async function findAllUsers() {
-  return await sql`select * from ${table}`
+  const columns = [
+    'id',
+    'uid',
+    'aud',
+    'role',
+    'email',
+    // 'email_confirmed_at',
+    // 'email_change_token_new',
+    // 'email_change',
+    // 'email_change_sent_at',
+    // 'email_change_token_current',
+    // 'email_change_confirm_status',
+    'phone',
+    // 'phone_confirmed_at',
+    // 'phone_change',
+    // 'phone_change_token',
+    // 'phone_change_sent_at',
+    // 'invited_at',
+    // 'confirmation_token',
+    // 'confirmation_sent_at',
+    // 'recovery_token',
+    // 'recovery_sent_at',
+    // 'reauthentication_token',
+    // 'reauthentication_sent_at',
+    // 'last_sign_in_at',
+    // 'raw_app_meta_data',
+    // 'raw_user_meta_data',
+    // 'is_super_admin',
+    // 'is_sso_user',
+    'confirmed_at',
+    'banned_until',
+    'created_at',
+    'updated_at',
+    'deleted_at',
+  ]
+  return await sql`select ${sql(columns)} from ${table}`
 }
 
 export async function findUserByUid(uid: string) {
