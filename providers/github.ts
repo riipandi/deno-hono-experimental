@@ -7,7 +7,7 @@ export const oauth2Client = new OAuth2Client({
   clientSecret: getEnvar('FASTRUE_EXTERNAL_GITHUB_SECRET')!,
   authorizationEndpointUri: 'https://github.com/login/oauth/authorize',
   tokenUri: 'https://github.com/login/oauth/access_token',
-  redirectUri: `${config.baseUrl}/callback`,
+  redirectUri: `${config.baseUrl}/callback/github`,
   defaults: { scope: 'read:user' },
 })
 

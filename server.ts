@@ -6,7 +6,6 @@ import config from './config.ts'
 import { onErrorResponse, throwResponse } from './libraries/response.ts'
 import { logger } from './libraries/logger.ts'
 
-import { adminRoute } from './routes/mod.ts'
 import {
   authorizeHandler,
   callbackHandler,
@@ -25,6 +24,12 @@ import {
   updateUserHandler,
   verificationhandler,
 } from './handler/mod.ts'
+import {
+  adminCreateUserHandler,
+  adminGetUsersHandler,
+  adminInviterUserHandler,
+  adminUpdateUserHandler,
+} from './handler/admin/mod.ts'
 import { signupRequestSchema } from './schema/requests/index.ts'
 
 const app = new Hono()
@@ -37,28 +42,27 @@ app.onError((err, c) => onErrorResponse(err, c))
 // Register global middlewares
 app.use('*', logger(), etag(), cors(config.cors), prettyJSON({ space: 4 }))
 
-// Route level middlewares
-app.use('/admin/*', jwt(config.jwt))
-
 // Register app routes
 app.get('/', (c: Context) => rootHandler(c))
 app.get('/settings', (c: Context) => settingsHandler(c))
 app.get('/health', (c: Context) => healthCheckHandler(c))
 
-// Grouped routes
-app.route('/admin', adminRoute)
-app.get('/user/:user_id', (c) => getUserHandler(c)).put((c) => updateUserHandler(c))
+// Group routes for admin
+const admin = new Hono().use('*', jwt(config.jwt))
+admin.get('/users', (c) => adminGetUsersHandler(c)).post((c) => adminCreateUserHandler(c))
+admin.put('/users/:user_id', (c) => adminUpdateUserHandler(c))
+admin.post('/generate_link', (c) => adminInviterUserHandler(c))
+app.route('/admin', admin)
 
 // Chained route for verification
 app.get('/verify', (c) => verificationhandler(c)).post((c) => verificationhandler(c))
 
-// Authentication routes
-app.post('/signup', zValidator('json', signupRequestSchema), (c: Context) => signupHandler(c))
-app.post('/invite', jwt(config.jwt), (c) => inviteHandler(c))
-// app.post('/invite', bearerAuth({ token: '123', prefix: 'Bearer' }), (c) => {
-//   return c.json({ message: 'Created post!' }, 201)
-// })
+// Chained route for authenticated user
+app.get('/user/:user_id', (c) => getUserHandler(c)).put((c) => updateUserHandler(c))
 
+// Authentication routes
+app.post('/invite', jwt(config.jwt), (c) => inviteHandler(c))
+app.post('/signup', zValidator('json', signupRequestSchema), (c: Context) => signupHandler(c))
 app.post('/otp', (c: Context) => otpHandler(c))
 app.post('/magiclink', (c: Context) => magiclinkHandler(c))
 app.post('/recover', (c: Context) => recoverHandler(c))
@@ -66,7 +70,7 @@ app.post('/token', (c: Context) => tokenHandler(c))
 app.get('/reauthenticate', (c: Context) => reauthenticateHandler(c))
 app.get('/authorize', (c: Context) => authorizeHandler(c))
 app.get('/logout', (c: Context) => logoutHandler(c))
-app.get('/callback', (c: Context) => callbackHandler(c))
+app.get('/callback/:provider', (c: Context) => callbackHandler(c))
 
 export { serve, version }
 

@@ -42,6 +42,7 @@ const etaConfig: Partial<EtaConfig> = {
 const appConfig = {
   port: Number(getEnvar('PORT')) || 9999,
   baseUrl: getEnvar('FASTRUE_BASE_URL') || 'http://localhost:9999',
+  siteUrl: getEnvar('FASTRUE_SITE_URL') || 'http://localhost:3000',
   database: {
     url: databaseUrl,
     driver: getEnvar('DATABASE_DRIVER') || DatabaseDriver.Postgres,

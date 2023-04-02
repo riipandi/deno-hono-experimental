@@ -5,23 +5,39 @@ import config from '../../config.ts'
 const table = sql(`${config.database.schema}.users`)
 
 export async function findUserById(id: string) {
-  const result = await sql`select * from ${table} where id = '${id}'`
-  return result[0]
+  const columns = [
+    'id',
+    'uid',
+    'email',
+    'phone',
+    'aud',
+    'role',
+    'created_at',
+    'updated_at',
+    'confirmation_sent_at',
+    'recovery_sent_at',
+  ]
+  const { [0]: result } = await sql`select ${sql(columns)} from ${table} where id = ${id}`
+  return result
+}
+
+export async function findAllUsers() {
+  return await sql`select * from ${table}`
 }
 
 export async function findUserByUid(uid: string) {
-  const result = await sql`select * from ${table} where uid = '${uid}'`
-  return result[0]
+  const { [0]: result } = await sql`select * from ${table} where uid = '${uid}'`
+  return result
 }
 
 export async function findUserByEmail(email: string) {
-  const result = await sql`select * from ${table} where email = ${email}`
-  return result[0]
+  const { [0]: result } = await sql`select * from ${table} where email = ${email}`
+  return result
 }
 
 export async function findUserByPhone(phone: string) {
-  const result = await sql`select * from ${table} where phone = '${phone}'`
-  return result[0]
+  const { [0]: result } = await sql`select * from ${table} where phone = '${phone}'`
+  return result
 }
 
 export async function insertUser({ email, password }: { email: string; password: string }) {
@@ -34,9 +50,23 @@ export async function insertUser({ email, password }: { email: string; password:
     role: 'authenticated',
   }
 
+  const columns = [
+    'id',
+    'uid',
+    'email',
+    'phone',
+    'aud',
+    'role',
+    'confirmation_token',
+    'created_at',
+    'updated_at',
+    'confirmation_sent_at',
+    'recovery_sent_at',
+  ]
+
   return await sql`
     insert into ${table} ${sql(user, 'id', 'uid', 'email', 'confirmation_token', 'aud', 'role')}
-    returning id, uid, email, phone, aud, role, confirmation_token, created_at, updated_at, confirmation_sent_at, recovery_sent_at
+    returning ${sql(columns)}
   `.then(async (result) => {
     const pwdData = {
       id: await generateUUID(),
