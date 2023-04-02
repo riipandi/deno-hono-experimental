@@ -68,8 +68,7 @@ export function generateUid(opts?: { length?: number; prefix?: string }): string
 
 export async function generateUUID(identifier?: string): Promise<string> {
   const data = new TextEncoder().encode(identifier || randomStr({ length: 8 }))
-  const namespace = config.instanceId.toString()
-  return await uuid.v5.generate(namespace, data)
+  return await uuid.v5.generate('fastrue', data)
 }
 
 export async function generatePassword(password: string): Promise<string> {
