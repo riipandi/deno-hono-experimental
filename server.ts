@@ -35,12 +35,10 @@ import { signupRequestSchema } from './schema/requests/index.ts'
 const app = new Hono()
 const version = '0.1.0'
 
-// Register custom error response
+// Register global middlewares and custom error response
+app.use('*', logger(), etag(), cors(config.cors), prettyJSON({ space: 4 }))
 app.notFound((c) => throwResponse(c, 404, 'resource not found'))
 app.onError((err, c) => onErrorResponse(err, c))
-
-// Register global middlewares
-app.use('*', logger(), etag(), cors(config.cors), prettyJSON({ space: 4 }))
 
 // Register app routes
 app.get('/', (c: Context) => rootHandler(c))
@@ -54,10 +52,8 @@ admin.put('/users/:user_id', (c) => adminUpdateUserHandler(c))
 admin.post('/generate_link', (c) => adminInviterUserHandler(c))
 app.route('/admin', admin)
 
-// Chained route for verification
+// Chained routes for user detail and verification
 app.get('/verify', (c) => verificationhandler(c)).post((c) => verificationhandler(c))
-
-// Chained route for authenticated user
 app.get('/user/:user_id', (c) => getUserHandler(c)).put((c) => updateUserHandler(c))
 
 // Authentication routes
@@ -72,6 +68,4 @@ app.get('/authorize', (c: Context) => authorizeHandler(c))
 app.get('/logout', (c: Context) => logoutHandler(c))
 app.get('/callback/:provider', (c: Context) => callbackHandler(c))
 
-export { serve, version }
-
-export default app
+export { app as default, serve, version }
