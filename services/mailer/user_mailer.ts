@@ -5,19 +5,19 @@ import config from '../../config.ts'
 const { schema: dbPrefix } = config.database
 
 export async function sendUserConfirmationEmail(email: string, token: string) {
-  const verificationLink = `${config.baseUrl}/verify?token=${token}`
+  const actionLink = `${config.baseUrl}/verify?token=${token}`
   const mailContent = `Thank you for signing up for our platform.
-To get started, please verify your email address by clicking the link below: ${verificationLink}`
+To get started, please verify your email address by clicking the link below: ${actionLink}`
 
-  await sendMail<{ title: string; verificationLink: string }>(
+  await sendMail<{ title: string; actionLink: string }>(
     email,
     {
-      subject: 'Verify Your Email',
+      subject: 'Confirm Your Signup',
       content: mailContent,
-      template: 'signup',
+      template: 'confirm_signup',
       payload: {
-        title: 'Verify Your Email',
-        verificationLink,
+        title: 'Confirm Your Signup',
+        actionLink,
       },
     },
   ).then(async () => {

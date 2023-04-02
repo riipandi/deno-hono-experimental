@@ -11,7 +11,7 @@
   </div>
 
   <div>
-    <a href="<%= it.verificationLink %>" class="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">
+    <a href="<%= it.actionLink %>" class="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">
       Verify Email Address
     </a>
   </div>
@@ -20,7 +20,7 @@
 
   <div>
     <p class="mb-2">If you can't click the above, button copy and open the following link:</p>
-    <code class="text-sm text-gray-600 break-words"><%= it.verificationLink %></code>
+    <code class="text-sm text-gray-600 break-words"><%= it.actionLink %></code>
     <p class="mt-8 leading-8">Sincerely,<br />The Fastrue Team</p>
   </div>
 </div>
