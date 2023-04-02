@@ -1,12 +1,9 @@
 import { Context } from '../deps.ts'
 import type { SignUpResponseSchema } from '../schema/requests/index.ts'
 import { jsonResponse, throwResponse } from '../libraries/response.ts'
-import { generateUid, generateUUID } from '../libraries/helpers.ts'
 import { SignUpRequestSchema } from '../schema/requests/index.ts'
-import { sendMail } from '../libraries/mailer.ts'
-import { db, sql } from '../database/mod.ts'
-import config from '../config.ts'
 import { findUserByEmail, findUserByPhone, insertUser } from '../services/user_service.ts'
+import { sendUserConfirmationEmail } from '../messages/user_mailer.ts'
 
 export default async function handler(c: Context) {
   const body: SignUpRequestSchema = c.req.valid('json')
@@ -36,19 +33,8 @@ export default async function handler(c: Context) {
     recovery_sent_at: user.recovery_sent_at,
   }
 
-  const verificationLink = `${config.baseUrl}/verify?token=${user.confirmation_token}`
-  const mailContent = `Thank you for signing up for our platform.
-To get started, please verify your email address by clicking the link below: ${verificationLink}`
-
-  await sendMail<{ title: string; verificationLink: string }>(body.email!, {
-    subject: 'Verify Your Email',
-    content: mailContent,
-    template: 'signup',
-    payload: {
-      title: 'Verify Your Email',
-      verificationLink,
-    },
-  })
+  // Send confirmation email
+  await sendUserConfirmationEmail(user.email, user.confirmation_token)
 
   return jsonResponse(c, undefined, { ...result })
 }

@@ -1,4 +1,4 @@
-import { bcrypt, Context, Jwt, JWTAlgorithmTypes, uuid } from '../deps.ts'
+import { bcrypt, Context, jose, Jwt, JWTAlgorithmTypes, urlParse, uuid } from '../deps.ts'
 import config from '../config.ts'
 
 export const DEFAULT_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -7,12 +7,39 @@ export function getEnvar<T>(key: string): T | undefined {
   return Deno.env.get(key) as T || undefined
 }
 
-export async function signJwt<T>(payload: T): Promise<string> {
-  return await Jwt.sign(payload, config.jwt.secret, JWTAlgorithmTypes.HS256)
+export function epoch(date: Date): number {
+  return Math.floor(date.getTime() / 1000)
+}
+
+type JWTPayload = {
+  uid: string
+  email?: string
+}
+
+export async function signJwt(
+  params: { payload: JWTPayload; aud: string; expires_in?: number | string },
+): Promise<string> {
+  const secret = new TextEncoder().encode(config.jwt.secret)
+  const expires = params?.expires_in || '2h'
+  const { hostname } = urlParse(config.baseUrl)
+
+  const token = await new jose.SignJWT(params.payload)
+    .setProtectedHeader({ alg: JWTAlgorithmTypes.HS256 })
+    .setIssuer(hostname)
+    .setAudience(params.aud)
+    .setExpirationTime(expires)
+    .setIssuedAt()
+    .sign(secret)
+
+  return token
 }
 
 export async function verifyJwt(token: string): Promise<boolean> {
   return await Jwt.verify(token, config.jwt.secret, JWTAlgorithmTypes.HS256)
+}
+
+export function decodeJwt(token: string) {
+  return jose.decodeJwt(token)
 }
 
 export function getAuthTokenFromHeader(c: Context): string {
@@ -68,7 +95,7 @@ export function generateUid(opts?: { length?: number; prefix?: string }): string
 
 export async function generateUUID(identifier?: string): Promise<string> {
   const data = new TextEncoder().encode(identifier || randomStr({ length: 8 }))
-  return await uuid.v5.generate('fastrue', data)
+  return await uuid.v5.generate(crypto.randomUUID(), data)
 }
 
 export async function generatePassword(password: string): Promise<string> {

@@ -1,21 +1,25 @@
 import { Context } from '../deps.ts'
 import { jsonResponse } from '../libraries/response.ts'
-import { signJwt } from '../libraries/helpers.ts'
+import { decodeJwt, generateUid, signJwt } from '../libraries/helpers.ts'
+import config from '../config.ts'
 
 export default async function handler(c: Context) {
-  const access_token = await signJwt({
-    'uid': 'ce4227c9-1190-54d9-bee9-350439100e71',
-    'sub': 'ad757dc6-368e-5add-82d7-3349aca4e1fe',
-    'iat': 1679705252,
-    'exp': 1679708852,
-  })
+  const token_type = 'bearer'
+  const uid = generateUid()
+  const aud = 'authenticated'
+  const payload = { uid }
 
-  const data = {
+  const access_token = await signJwt({ payload, aud })
+  const refresh_token = await signJwt({ payload, aud, expires_in: '7d' })
+  const { exp: expires_in } = decodeJwt(access_token)
+
+  // Store token in cookies
+  c.cookie(String(config.jwt.cookie), access_token)
+
+  return jsonResponse(c, undefined, {
     access_token,
-    'refresh_token': 'a-refresh-token',
-    'token_type': 'bearer',
-    'expires_in': 21600,
-  }
-
-  return jsonResponse(c, undefined, data)
+    refresh_token,
+    token_type,
+    expires_in,
+  })
 }
