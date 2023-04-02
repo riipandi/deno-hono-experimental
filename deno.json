@@ -2,12 +2,12 @@
   "tasks": {
     "run": "deno run --allow-read --allow-net --allow-env --watch fastrue.ts",
     "compile": "deno compile --output dist/fastrue --allow-read --allow-net --allow-env fastrue.ts",
-    "db:make-migration": "deno run -A https://deno.land/x/nessie/cli.ts make:migration",
-    "db:make-seeder": "deno run -A https://deno.land/x/nessie/cli.ts make:seed",
-    "db:status": "deno run -A https://deno.land/x/nessie/cli.ts status",
-    "db:migrate": "deno run -A https://deno.land/x/nessie/cli.ts migrate",
-    "db:rollback": "deno run -A https://deno.land/x/nessie/cli.ts rollback",
-    "db:reset": "deno run -A https://deno.land/x/nessie/cli.ts rollback all",
+    "db:make-migration": "deno run -A https://deno.land/x/nessie@2.0.10/cli.ts make:migration",
+    "db:make-seeder": "deno run -A https://deno.land/x/nessie@2.0.10/cli.ts make:seed",
+    "db:status": "deno run -A https://deno.land/x/nessie@2.0.10/cli.ts status",
+    "db:migrate": "deno run -A https://deno.land/x/nessie@2.0.10/cli.ts migrate",
+    "db:rollback": "deno run -A https://deno.land/x/nessie@2.0.10/cli.ts rollback",
+    "db:reset": "deno run -A https://deno.land/x/nessie@2.0.10/cli.ts rollback all",
     "format": "deno fmt --ignore=coverage,dist,build,.vscode,README.md",
     "lint": "deno lint --ignore=tests,dist,build,.vscode",
     "deploy": "fly deploy --remote-only"

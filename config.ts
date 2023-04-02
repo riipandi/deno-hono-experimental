@@ -44,7 +44,7 @@ const appConfig = {
   baseUrl: getEnvar('FASTRUE_BASE_URL') || 'http://localhost:9999',
   database: {
     url: databaseUrl,
-    driver: getEnvar('FASTRUE_DB_DRIVER') || DatabaseDriver.Postgres,
+    driver: getEnvar('DATABASE_DRIVER') || DatabaseDriver.Postgres,
     schema: getEnvar('DATABASE_NAMESPACE') || 'public',
     pool: getEnvar('DATABASE_POOL') || false,
   },
