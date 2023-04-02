@@ -6,10 +6,11 @@ import config from './config.ts'
 import { onErrorResponse, throwResponse } from './libraries/response.ts'
 import { logger } from './libraries/logger.ts'
 
-import { adminRoute, userRoute } from './routes/mod.ts'
+import { adminRoute } from './routes/mod.ts'
 import {
   authorizeHandler,
   callbackHandler,
+  getUserHandler,
   healthCheckHandler,
   inviteHandler,
   logoutHandler,
@@ -21,6 +22,7 @@ import {
   settingsHandler,
   signupHandler,
   tokenHandler,
+  updateUserHandler,
   verificationhandler,
 } from './handler/mod.ts'
 import { signupRequestSchema } from './schema/requests/index.ts'
@@ -45,7 +47,7 @@ app.get('/health', (c: Context) => healthCheckHandler(c))
 
 // Grouped routes
 app.route('/admin', adminRoute)
-app.route('/user', userRoute)
+app.get('/user/:user_id', (c) => getUserHandler(c)).put((c) => updateUserHandler(c))
 
 // Chained route for verification
 app.get('/verify', (c) => verificationhandler(c)).post((c) => verificationhandler(c))

@@ -1,11 +1,12 @@
-export { serve } from 'https://deno.land/std@0.180.0/http/server.ts'
+export { serve } from 'https://deno.land/std@0.182.0/http/server.ts'
+export * as path from 'https://deno.land/std@0.182.0/path/mod.ts'
+export * as uuid from 'https://deno.land/std@0.181.0/uuid/mod.ts'
+export { format as formatDateTime } from 'https://deno.land/std@0.181.0/datetime/mod.ts'
+
 export {
   getStatusText,
   type StatusCode,
 } from 'https://deno.land/x/hono@v3.1.2/utils/http-status.ts'
-
-export { format as formatDateTime } from 'https://deno.land/std@0.181.0/datetime/mod.ts'
-export * as uuid from 'https://deno.land/std@0.181.0/uuid/mod.ts'
 
 export type { Context } from 'https://deno.land/x/hono@v3.1.2/mod.ts'
 export { HTTPException } from 'https://deno.land/x/hono@v3.1.2/http-exception.ts'

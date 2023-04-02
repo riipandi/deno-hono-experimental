@@ -10,7 +10,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.users (
         id uuid NOT NULL UNIQUE,
         uid varchar(25) NOT NULL UNIQUE,
-        instance_id uuid NULL,
         aud varchar(255) NULL,
         "role" varchar(255) NULL,
         email varchar(255) NULL UNIQUE,
@@ -46,8 +45,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         CONSTRAINT users_pkey PRIMARY KEY (id)
       );
 
-      CREATE INDEX IF NOT EXISTS users_instance_id_email_idx on ${dbPrefix}.users using btree (instance_id, lower(email));
-      CREATE INDEX IF NOT EXISTS users_instance_id_idx ON ${dbPrefix}.users USING btree (instance_id);
       CREATE UNIQUE INDEX IF NOT EXISTS confirmation_token_idx ON ${dbPrefix}.users USING btree (confirmation_token) WHERE confirmation_token !~ '^[0-9 ]*$';
       CREATE UNIQUE INDEX IF NOT EXISTS recovery_token_idx ON ${dbPrefix}.users USING btree (recovery_token) WHERE recovery_token !~ '^[0-9 ]*$';
       CREATE UNIQUE INDEX IF NOT EXISTS email_change_token_current_idx ON ${dbPrefix}.users USING btree (email_change_token_current) WHERE email_change_token_current !~ '^[0-9 ]*$';
@@ -63,8 +60,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
 
   async down(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_idx;
-      DROP INDEX IF EXISTS ${dbPrefix}.users_instance_id_email_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.users_email_partial_key;
       DROP INDEX IF EXISTS ${dbPrefix}.confirmation_token_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.recovery_token_idx;

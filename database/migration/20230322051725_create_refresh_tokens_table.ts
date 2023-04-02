@@ -9,7 +9,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.refresh_tokens (
         id uuid NOT NULL,
-        instance_id uuid NULL,
         parent varchar(255) NULL,
         "token" varchar(255) NULL,
         user_id varchar(255) NULL,
@@ -22,8 +21,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         CONSTRAINT refresh_tokens_session_id_fkey foreign key (session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade
       );
 
-      CREATE INDEX IF NOT EXISTS refresh_tokens_instance_id_idx ON ${dbPrefix}.refresh_tokens USING btree (instance_id);
-      CREATE INDEX IF NOT EXISTS refresh_tokens_instance_id_user_id_idx ON ${dbPrefix}.refresh_tokens USING btree (instance_id, user_id);
       CREATE INDEX IF NOT EXISTS refresh_tokens_token_idx ON ${dbPrefix}.refresh_tokens USING btree (token);
       CREATE INDEX IF NOT EXISTS refresh_tokens_parent_idx ON ${dbPrefix}.refresh_tokens USING btree (parent);
       CREATE INDEX IF NOT EXISTS refresh_tokens_session_id_revoked_idx on ${dbPrefix}.refresh_tokens (session_id, revoked);
@@ -34,8 +31,6 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
 
   async down(_ctx: Info): Promise<void> {
     await this.client.queryArray(`
-      DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_instance_id_idx;
-      DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_instance_id_user_id_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_token_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_parent_idx;
       DROP INDEX IF EXISTS ${dbPrefix}.refresh_tokens_session_id_revoked_idx;
