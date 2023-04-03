@@ -1,5 +1,5 @@
 import 'https://deno.land/x/dotenv@v3.2.2/load.ts'
-import type { ConnectionString, EtaConfig } from './deps.ts'
+import type { EtaConfig } from './deps.ts'
 import { getEnvar } from './libraries/helpers.ts'
 
 export enum DatabaseDriver {
@@ -7,7 +7,7 @@ export enum DatabaseDriver {
   Cockroach = 'cockroach',
 }
 
-const databaseUrl: ConnectionString = getEnvar('DATABASE_URL')!
+const databaseUrl: string = getEnvar('DATABASE_URL')!
 
 const corsConfig: {
   origin: string | string[] | ((origin: string) => string | undefined | null)
@@ -47,7 +47,6 @@ const appConfig = {
     url: databaseUrl,
     driver: getEnvar('DATABASE_DRIVER') || DatabaseDriver.Postgres,
     schema: getEnvar('DATABASE_NAMESPACE') || 'public',
-    pool: getEnvar('DATABASE_POOL') || false,
   },
   smtp: {
     host: getEnvar('FASTRUE_SMTP_HOST'),

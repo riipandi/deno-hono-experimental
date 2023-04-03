@@ -1,7 +1,7 @@
 </div>
 <footer class="pt-8 pb-4">
   <div class="max-w-screen-sm mx-auto px-4 flex flex-col justify-center items-center text-sm space-y-1">
-    <p class="text-gray-600">&copy; 2023 Fastrue. All rights reserved.</p>
-    <p class="text-gray-600">Fastrue is a headless authentication server.</p>
+    <p class="text-gray-600">&copy; <%~ new Date().getFullYear() %> Your Company. All rights reserved.</p>
+    <p class="text-gray-600">Powered by Fastrue, headless authentication server.</p>
   </div>
 </footer>

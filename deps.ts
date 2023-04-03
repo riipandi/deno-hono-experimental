@@ -33,10 +33,7 @@ export { AlgorithmTypes as JWTAlgorithmTypes } from 'https://deno.land/x/hono@v3
  * Database dependencies
  * --------------------------------------------------------------------------------------------------
  */
-export { Client, Pool } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
-export type { ClientOptions, ConnectionString } from 'https://deno.land/x/postgres@v0.17.0/mod.ts'
 export { default as postgres } from 'https://deno.land/x/postgresjs@v3.3.4/mod.js'
-
 export type { Info, NessieConfig } from 'https://deno.land/x/nessie@2.0.10/mod.ts'
 export { AbstractClient, AbstractMigration } from 'https://deno.land/x/nessie@2.0.10/mod.ts'
 export { AbstractSeed, ClientPostgreSQL } from 'https://deno.land/x/nessie@2.0.10/mod.ts'
