@@ -7,7 +7,7 @@ export enum DatabaseDriver {
   Cockroach = 'cockroach',
 }
 
-const databaseUrl: string = getEnvar('DATABASE_URL')!
+const databaseUrl = getEnvar('DATABASE_URL')!
 
 const corsConfig: {
   origin: string | string[] | ((origin: string) => string | undefined | null)
@@ -41,12 +41,12 @@ const etaConfig: Partial<EtaConfig> = {
 
 const appConfig = {
   port: Number(getEnvar('PORT')) || 9999,
-  baseUrl: getEnvar('FASTRUE_BASE_URL') || 'http://localhost:9999',
-  siteUrl: getEnvar('FASTRUE_SITE_URL') || 'http://localhost:3000',
+  baseUrl: getEnvar('FASTRUE_BASE_URL', 'http://localhost:9999'),
+  siteUrl: getEnvar('FASTRUE_SITE_URL', 'http://localhost:3000'),
   database: {
     url: databaseUrl,
-    driver: getEnvar('DATABASE_DRIVER') || DatabaseDriver.Postgres,
-    schema: getEnvar('DATABASE_NAMESPACE') || 'public',
+    driver: getEnvar('DATABASE_DRIVER', DatabaseDriver.Postgres),
+    schema: getEnvar('DATABASE_NAMESPACE', 'public'),
   },
   smtp: {
     host: getEnvar('FASTRUE_SMTP_HOST'),

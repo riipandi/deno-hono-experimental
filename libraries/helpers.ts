@@ -3,13 +3,17 @@ import config from '../config.ts'
 
 export const DEFAULT_CHARSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
-export function getEnvar<T>(key: string): T | undefined {
-  return Deno.env.get(key) as T || undefined
+export function getEnvar<T>(
+  key: string,
+  defaultValue?: string | number | boolean,
+): string | boolean | undefined {
+  const value = Deno.env.get(key) ? Deno.env.get(key) : defaultValue
+  return (value === 'true' || value === 'false') ? parseBoolean(value) : String(value)
 }
 
-export function epoch(date: Date): number {
-  return Math.floor(date.getTime() / 1000)
-}
+export const parseBoolean = (str: string) => /true/i.test(str)
+
+export const epoch = (date: Date): number => Math.floor(date.getTime() / 1000)
 
 type JWTPayload = {
   uid: string
