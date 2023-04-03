@@ -20,12 +20,12 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
   }
 
   async down(_ctx: Info): Promise<void> {
-    await this.client.queryArray(
-      driver === DatabaseDriver.Cockroach ? `DROP SCHEMA IF EXISTS ${dbPrefix};` : `
-      DROP SCHEMA IF EXISTS ${dbPrefix};
+    const queryDropchema = dbPrefix !== 'public' ? `DROP SCHEMA IF EXISTS ${dbPrefix};` : ``
+    const queryDropRole = `
       DROP OWNED BY fastrue_auth_admin;
       DROP ROLE IF EXISTS fastrue_auth_admin;
-    `,
-    )
+    `
+    await this.client.queryArray(driver === DatabaseDriver.Postgres ? queryDropRole : ``)
+    await this.client.queryArray(queryDropchema)
   }
 }

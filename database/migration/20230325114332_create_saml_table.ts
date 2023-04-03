@@ -9,9 +9,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.sso_providers (
         id UUID NOT NULL,
-        resource_id TEXT NULL,
-        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        resource_id text NULL,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         PRIMARY KEY (id),
         CONSTRAINT "resource_id not empty" CHECK (resource_id = null or char_length(resource_id) > 0)
       );
@@ -24,9 +24,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.sso_domains (
         id UUID NOT NULL,
         sso_provider_id UUID NOT NULL,
-        domain TEXT NOT NULL,
-        created_at TIMESTAMPTZ NULL,
-        updated_at TIMESTAMPTZ NULL,
+        domain text NOT NULL,
+        created_at timestamptz NULL,
+        updated_at timestamptz NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (sso_provider_id) REFERENCES ${dbPrefix}.sso_providers (id) ON DELETE CASCADE,
         CONSTRAINT "domain not empty" CHECK (char_length(domain) > 0)
@@ -40,12 +40,12 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.saml_providers (
         id UUID NOT NULL,
         sso_provider_id UUID NOT NULL,
-        entity_id TEXT NOT NULL unique,
-        metadata_xml TEXT NOT NULL,
-        metadata_url TEXT NULL,
-        attribute_mapping JSONB NULL,
-        created_at TIMESTAMPTZ NULL,
-        updated_at TIMESTAMPTZ NULL,
+        entity_id text NOT NULL unique,
+        metadata_xml text NOT NULL,
+        metadata_url text NULL,
+        attribute_mapping jsonb NULL,
+        created_at timestamptz NULL,
+        updated_at timestamptz NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (sso_provider_id) REFERENCES ${dbPrefix}.sso_providers (id) ON DELETE CASCADE,
         CONSTRAINT "metadata_xml not empty" CHECK (char_length(metadata_xml) > 0),
@@ -60,12 +60,12 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.saml_relay_states (
         id UUID NOT NULL,
         sso_provider_id UUID NOT NULL,
-        request_id TEXT NOT NULL,
-        for_email TEXT NULL,
-        redirect_to TEXT NULL,
+        request_id text NOT NULL,
+        for_email text NULL,
+        redirect_to text NULL,
         from_ip_address inet NULL,
-        created_at TIMESTAMPTZ NULL,
-        updated_at TIMESTAMPTZ NULL,
+        created_at timestamptz NULL,
+        updated_at timestamptz NULL,
         PRIMARY KEY (id),
         FOREIGN KEY (sso_provider_id) REFERENCES ${dbPrefix}.sso_providers (id) ON DELETE CASCADE,
         CONSTRAINT "request_id not empty" CHECK(char_length(request_id) > 0)

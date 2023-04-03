@@ -9,13 +9,13 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.refresh_tokens (
         id UUID NOT NULL,
-        parent VARCHAR(255) NULL,
-        "token" VARCHAR(255) NULL,
-        user_id VARCHAR(255) NULL,
+        parent varchar(255) NULL,
+        "token" varchar(255) NULL,
+        user_id varchar(255) NULL,
         revoked BOOL NULL,
         session_id UUID NULL,
-        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id),
         CONSTRAINT refresh_tokens_token_unique UNIQUE (token),
         CONSTRAINT refresh_tokens_session_id_fkey FOREIGN KEY (session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade

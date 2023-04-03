@@ -15,12 +15,12 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.mfa_factors(
         id UUID NOT NULL,
         user_id UUID NOT NULL,
-        friendly_name TEXT NULL,
+        friendly_name text NULL,
         factor_type factor_type NOT NULL,
         status factor_status NOT NULL,
-        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-        secret TEXT NULL,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        secret text NULL,
         CONSTRAINT mfa_factors_pkey PRIMARY KEY(id),
         CONSTRAINT mfa_factors_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) on delete cascade
       );
@@ -35,8 +35,8 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.mfa_challenges(
         id UUID NOT NULL,
         factor_id UUID NOT NULL,
-        created_at TIMESTAMPTZ NOT NULL,
-        verified_at TIMESTAMPTZ  NULL,
+        created_at timestamptz NOT NULL,
+        verified_at timestamptz  NULL,
         ip_address  inet NOT NULL,
         CONSTRAINT mfa_challenges_pkey PRIMARY KEY (id),
         CONSTRAINT mfa_challenges_auth_factor_id_fkey FOREIGN KEY (factor_id) REFERENCES ${dbPrefix}.mfa_factors(id) on delete cascade
@@ -48,9 +48,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
       create table if not exists ${dbPrefix}.mfa_amr_claims(
         id UUID NOT NULL,
         session_id UUID NOT NULL,
-        created_at TIMESTAMPTZ NOT NULL,
-        updated_at TIMESTAMPTZ NOT NULL,
-        authentication_method TEXT NOT NULL,
+        created_at timestamptz NOT NULL,
+        updated_at timestamptz NOT NULL,
+        authentication_method text NOT NULL,
         CONSTRAINT amr_id_pk PRIMARY KEY(id),
         CONSTRAINT mfa_amr_claims_session_id_authentication_method_pkey unique(session_id, authentication_method),
         CONSTRAINT mfa_amr_claims_session_id_fkey FOREIGN KEY(session_id) REFERENCES ${dbPrefix}.sessions(id) on delete cascade

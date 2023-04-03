@@ -13,9 +13,9 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
         user_id UUID NOT NULL,
         factor_id UUID NULL,
         aal aal_level NULL,
-        not_after TIMESTAMPTZ,
-        created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-        updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+        not_after timestamptz,
+        created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+        updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
         CONSTRAINT sessions_pkey PRIMARY KEY (id),
         CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) ON DELETE CASCADE
       );

@@ -9,14 +9,14 @@ export default class extends ExtendedMigration<ClientPostgreSQL> {
     const indexPattern = driver === DatabaseDriver.Postgres ? 'email text_pattern_ops' : 'email'
     await this.client.queryArray(`
       CREATE TABLE IF NOT EXISTS ${dbPrefix}.identities (
-          id TEXT NOT NULL,
+          id text NOT NULL,
           user_id UUID NOT NULL,
-          identity_data JSONB NOT NULL,
-          provider TEXT NOT NULL,
+          identity_data jsonb NOT NULL,
+          provider text NOT NULL,
           email text GENERATED ALWAYS AS (lower(identity_data->>'email')) STORED,
-          last_sign_in_at TIMESTAMPTZ NULL,
-          created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-          updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+          last_sign_in_at timestamptz NULL,
+          created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+          updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
           CONSTRAINT identities_pkey PRIMARY KEY (provider, id),
           CONSTRAINT identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES ${dbPrefix}.users(id) ON DELETE CASCADE
       );

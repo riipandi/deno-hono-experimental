@@ -2,7 +2,8 @@ import { encryptPassword, generateUid, generateUUID } from '../../libraries/help
 import { sql } from '../../database/mod.ts'
 import config from '../../config.ts'
 
-const table = sql(`${config.database.schema}.users`)
+const usersTableName = sql(`${config.database.schema}.users`)
+const passwordsTableName = sql(`${config.database.schema}.passwords`)
 
 export async function findUserById(id: string) {
   const columns = [
@@ -17,7 +18,7 @@ export async function findUserById(id: string) {
     'confirmation_sent_at',
     'recovery_sent_at',
   ]
-  const { [0]: result } = await sql`select ${sql(columns)} from ${table} where id = ${id}`
+  const { [0]: result } = await sql`select ${sql(columns)} from ${usersTableName} where id = ${id}`
   return result
 }
 
@@ -57,21 +58,21 @@ export async function findAllUsers() {
     'updated_at',
     'deleted_at',
   ]
-  return await sql`select ${sql(columns)} from ${table}`
+  return await sql`select ${sql(columns)} from ${usersTableName}`
 }
 
 export async function findUserByUid(uid: string) {
-  const { [0]: result } = await sql`select * from ${table} where uid = '${uid}'`
+  const { [0]: result } = await sql`select * from ${usersTableName} where uid = '${uid}'`
   return result
 }
 
 export async function findUserByEmail(email: string) {
-  const { [0]: result } = await sql`select * from ${table} where email = ${email}`
+  const { [0]: result } = await sql`select * from ${usersTableName} where email = ${email}`
   return result
 }
 
 export async function findUserByPhone(phone: string) {
-  const { [0]: result } = await sql`select * from ${table} where phone = '${phone}'`
+  const { [0]: result } = await sql`select * from ${usersTableName} where phone = '${phone}'`
   return result
 }
 
@@ -100,7 +101,9 @@ export async function insertUser({ email, password }: { email: string; password:
   ]
 
   return await sql`
-    insert into ${table} ${sql(user, 'id', 'uid', 'email', 'confirmation_token', 'aud', 'role')}
+    insert into ${usersTableName} ${
+    sql(user, 'id', 'uid', 'email', 'confirmation_token', 'aud', 'role')
+  }
     returning ${sql(columns)}
   `.then(async (result) => {
     const pwdData = {
@@ -108,7 +111,9 @@ export async function insertUser({ email, password }: { email: string; password:
       user_id: result[0].id,
       encrypted_password: await encryptPassword(password),
     }
-    await sql`insert into auth.passwords ${sql(pwdData, 'id', 'user_id', 'encrypted_password')}`
+    await sql`insert into ${passwordsTableName} ${
+      sql(pwdData, 'id', 'user_id', 'encrypted_password')
+    }`
     return result[0]
   })
 }
